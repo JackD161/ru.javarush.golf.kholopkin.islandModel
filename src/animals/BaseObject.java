@@ -2,8 +2,8 @@ package animals;
 // базовый класс всех сущностей на острове
 public abstract class BaseObject {
 
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
 
     public BaseObject(int x, int y) {
         this.x = x;
@@ -11,7 +11,7 @@ public abstract class BaseObject {
     }
 
     // у объекта есть запас прочности (здоровья для животных)
-    private int health;
+    protected int health;
 
     //у объекта есть иконка для отображения
     public String icon;

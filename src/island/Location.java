@@ -1,5 +1,7 @@
 package island;
 
+import animals.Animal;
+import animals.BaseObject;
 import animals.carnivores.Carnivore;
 import animals.carnivores.Wolf;
 import animals.herbivorous.Herbivorous;
@@ -22,7 +24,28 @@ public class Location {
     private List<Carnivore> carnivores = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
 
+    public void away(BaseObject object) {
+        if (object instanceof Herbivorous) {
+            herbivorous.remove(object);
+        }
+        else if (object instanceof Carnivore) {
+            carnivores.remove(object);
+        }
+        else if (object instanceof Plant) {
+            plants.remove(object);
+        }
+    }
 
+    public void come(BaseObject object) {
+        if (object instanceof Herbivorous) {
+            herbivorous.add((Herbivorous) object);
+        }
+        else if (object instanceof Carnivore) {
+            carnivores.add((Carnivore) object);
+        } else if (object instanceof Plant) {
+            plants.add((Plant) object);
+        }
+    }
 
     public Location(int x, int y) {
         this.x = x;

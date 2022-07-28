@@ -1,24 +1,28 @@
 package animals;
+
+import utils.UniversalRandomizer;
+
 // базовый класс животных
 public abstract class Animal extends BaseObject implements CanEat, CanMove, Reproduce {
     // каждое животное обладает весом
-    private int weight;
+    protected int weight;
     // каждое животное обладает скоростью передвижения
-    private int speed;
+    protected int speed;
     // каждое животное нуждается в определенном количестве еды
-    private int needFood;
+    protected int needFood;
     // количество съеденной еды
-    private int satiety;
+    protected int satiety;
     // приздак голода
-    private boolean hungry = satiety <= (needFood / 2); // если желудок полупустой - возникает чувство голода
+    protected boolean hungry = satiety <= (needFood / 2); // если желудок полупустой - возникает чувство голода
     // пол животного
-    private Sex sex;
+    protected Sex sex;
     // животное может спать
-    private boolean isSleep;
-    private boolean isAlive;
+    protected boolean isSleep;
+    protected boolean isAlive;
 
     public Animal(int x, int y) {
         super(x, y);
+        sex = 1 == UniversalRandomizer.getRandomInteger(1) ? Sex.FAMILY:Sex.MALE;
     }
 
     /*
