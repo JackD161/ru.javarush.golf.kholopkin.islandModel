@@ -17,6 +17,10 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     private boolean isSleep;
     private boolean isAlive;
 
+    public Animal(int x, int y) {
+        super(x, y);
+    }
+
     /*
     Общий принцип поведения при взаимоотношениях животных
     1. Если ты больше другого животного - нужно попытаться съесть его

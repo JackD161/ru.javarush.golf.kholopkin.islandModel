@@ -4,6 +4,10 @@ import animals.CanFly;
 import animals.Direction;
 
 public class Duck extends Herbivorous implements CanFly {
+    public Duck(int x, int y) {
+        super(x, y);
+    }
+
     @Override
     public void fly(Direction direction) {
 

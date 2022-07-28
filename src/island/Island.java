@@ -10,15 +10,19 @@ public class Island {
     public void initialize(){
         for (int x = 0; x < locations.length; x++) {
             for (int y = 0; y < locations[x].length; y++) {
-                locations[x][y] = new Location(x, y);
+                Location location = new Location(x, y);
+                location.initWolf(propertiesIsland.getMaxCntWolf());
+                location.initSheep(propertiesIsland.getMaxCntSheep());
+                location.initPlants(propertiesIsland.getCntPlants());
+                locations[x][y] = location;
             }
         }
     }
 
     public void print(){
-        for (int i = 0; i < locations.length; i++) {
-            for (int j = 0; j < locations[i].length; j++) {
-                System.out.print(locations[i][j]);
+        for (int x = 0; x < locations.length; x++) {
+            for (int y = 0; y < locations[x].length; y++) {
+                System.out.print(locations[x][y]);
             }
             System.out.println();
         }

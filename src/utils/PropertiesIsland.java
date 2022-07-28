@@ -1,15 +1,25 @@
 package utils;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesIsland {
 
+
+
     {
-        try (InputStream inputStream = getClass().getResourceAsStream("island.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/resources/island.properties")) {
             Properties properties = new Properties();
-            properties.load(inputStream);
+            properties.load(fis);
+            sizeHorizontal = Integer.parseInt(properties.getProperty("sizeHorizontal", "100"));
+            sizeVertical = Integer.parseInt(properties.getProperty("sizeVertical", "20"));
+            simulationDuration = Integer.parseInt(properties.getProperty("simulationDuration", "5"));
+            countHerbivorous = Integer.parseInt(properties.getProperty("countHerbivorous", "50"));
+            countCarnivores = Integer.parseInt(properties.getProperty("countCarnivores", "50"));
+            maxCntWolf = Integer.parseInt(properties.getProperty("maxCntWolf", "30"));
+            maxCntSheep = Integer.parseInt(properties.getProperty("maxCntSheep", "140"));
+            cntPlants = Integer.parseInt(properties.getProperty("cntPlants", "200"));
         }
         catch (IOException e) {
             System.err.print("Что то пошло не так при загрузке параметров острова из файла, используем стандартные параметры");
@@ -26,12 +36,26 @@ public class PropertiesIsland {
     private int countHerbivorous;
     // количество плотоядных на начало симуляции
     private int countCarnivores;
+    // максимальное количество волков на локации
+    private int maxCntWolf;
+    // максимальное количество овеч на локации
+    private int maxCntSheep;
+    // количество растений на локацит
+    private int cntPlants;
+
+    public int getMaxCntSheep() {
+        return maxCntSheep;
+    }
+
     private void initializeDefaultProperties() {
         sizeHorizontal = 100;
         sizeVertical = 20;
         simulationDuration = 5;
         countCarnivores = 50;
         countHerbivorous = 50;
+        maxCntWolf = 30;
+        maxCntSheep = 140;
+        cntPlants = 200;
     }
 
     public int getSizeHorizontal() {
@@ -52,5 +76,17 @@ public class PropertiesIsland {
 
     public int getCountCarnivores() {
         return countCarnivores;
+    }
+    public int getMaxCntWolf() {
+        return maxCntWolf;
+    }
+
+    public int getCntPlants() {
+        return cntPlants;
+    }
+
+    public static void main(String[] args) {
+        PropertiesIsland properties = new PropertiesIsland();
+        System.out.println(properties.getSizeVertical());
     }
 }

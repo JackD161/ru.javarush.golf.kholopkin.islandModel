@@ -3,4 +3,7 @@ package animals.carnivores;
 import animals.Animal;
 
 public class Carnivore extends Animal {
+    public Carnivore(int x, int y) {
+        super(x, y);
+    }
 }
