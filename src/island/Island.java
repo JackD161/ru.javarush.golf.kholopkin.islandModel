@@ -8,9 +8,9 @@ public class Island {
     Location[][] locations = new Location[propertiesIsland.getSizeHorizontal()][propertiesIsland.getSizeVertical()];
 
     public void initialize(){
-        for (int i = 0; i < locations.length; i++) {
-            for (int j = 0; j < locations[i].length; j++) {
-                locations[i][j] = new Location();
+        for (int x = 0; x < locations.length; x++) {
+            for (int y = 0; y < locations[x].length; y++) {
+                locations[x][y] = new Location(x, y);
             }
         }
     }

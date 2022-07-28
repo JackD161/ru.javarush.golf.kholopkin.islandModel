@@ -9,12 +9,22 @@ import java.util.List;
 
 public class Location {
 
-
+    private int x;
+    private int y;
     // Списки где будут хранитсья находящиеся на локации сущности
     List<Herbivorous> herbivorous = new ArrayList<>();
     List<Carnivore> carnivores = new ArrayList<>();
     List<Plant> plants = new ArrayList<>();
 
+    public Location(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // метод возвращает координаты локации
+    public int[] getCoordinates() {
+        return new int[]{x, y};
+    }
 /*
     // ОПИСЫВАЕМ СОБЫТИЯ НА ЛОКАЦИИ
     public void calculate() {
