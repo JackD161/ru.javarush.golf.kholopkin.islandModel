@@ -20,6 +20,8 @@ public class PropertiesIsland {
             maxCntWolf = Integer.parseInt(properties.getProperty("maxCntWolf", "30"));
             maxCntSheep = Integer.parseInt(properties.getProperty("maxCntSheep", "140"));
             cntPlants = Integer.parseInt(properties.getProperty("cntPlants", "200"));
+            moveCellSheep = Integer.parseInt(properties.getProperty("moveCellSheep", "3"));
+            moveCellWolf = Integer.parseInt(properties.getProperty("moveCellWolf", "3"));
         }
         catch (IOException e) {
             System.err.print("Что то пошло не так при загрузке параметров острова из файла, используем стандартные параметры");
@@ -42,6 +44,10 @@ public class PropertiesIsland {
     private int maxCntSheep;
     // количество растений на локацит
     private int cntPlants;
+    // количество передвижений за ход овцы
+    private int moveCellSheep;
+    // количество передвижений за ход волка
+    private int moveCellWolf;
 
     public int getMaxCntSheep() {
         return maxCntSheep;
@@ -56,6 +62,8 @@ public class PropertiesIsland {
         maxCntWolf = 30;
         maxCntSheep = 140;
         cntPlants = 200;
+        moveCellWolf = 3;
+        moveCellSheep = 3;
     }
 
     public int getSizeHorizontal() {
@@ -68,6 +76,14 @@ public class PropertiesIsland {
 
     public int getSimulationDuration() {
         return simulationDuration;
+    }
+
+    public int getMoveCellSheep() {
+        return moveCellSheep;
+    }
+
+    public int getMoveCellWolf() {
+        return moveCellWolf;
     }
 
     public int getCountHerbivorous() {

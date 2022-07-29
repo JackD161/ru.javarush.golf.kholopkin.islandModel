@@ -1,6 +1,6 @@
 package utils;
 // класс отслеживающий время суток на острове
-public class DayTimer {
+public  class DayTimer {
     int day;
     int hour;
     int minutes;

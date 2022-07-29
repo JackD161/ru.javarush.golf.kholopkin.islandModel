@@ -13,7 +13,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     // количество съеденной еды
     protected int satiety;
     // приздак голода
-    protected boolean hungry = satiety <= (needFood / 2); // если желудок полупустой - возникает чувство голода
+    protected boolean hungry;
     // пол животного
     protected Sex sex;
     // животное может спать
@@ -22,7 +22,8 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
 
     public Animal(int x, int y) {
         super(x, y);
-        sex = 1 == UniversalRandomizer.getRandomInteger(1) ? Sex.FAMILY:Sex.MALE;
+        sex = 1 == UniversalRandomizer.getRandomInteger(2) ? Sex.FAMILY:Sex.MALE;
+        hungry = satiety <= (needFood / 2); // если желудок полупустой - возникает чувство голода
     }
 
     /*
@@ -41,17 +42,42 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     }
 
     @Override
-    public void eat(BaseObject object, int howMany) {
-
+    public void eat(int howMany) {
+        satiety += howMany;
     }
 
     @Override
     public void move(Direction direction) {
-
+        switch (direction) {
+            case LEFT -> x--;
+            case RIGHT -> x++;
+            case UP -> y--;
+            case DOWN -> y++;
+            case HOLD -> {}
+        }
     }
 
     @Override
     public void reproduce(Animal animal) {
+        if(animal.sex != this.sex)
+        {
+            birth();
+        }
+    }
 
+    public boolean isHungry() {
+        return isHungry();
+    }
+
+    public int getFood() {
+        return weight / 3;
+    }
+
+    public int getNeedFood() {
+        return needFood - satiety;
+    }
+
+    public int[] getCoordinates() {
+        return new int[]{x, y};
     }
 }
