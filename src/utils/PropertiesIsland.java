@@ -101,8 +101,4 @@ public class PropertiesIsland {
         return cntPlants;
     }
 
-    public static void main(String[] args) {
-        PropertiesIsland properties = new PropertiesIsland();
-        System.out.println(properties.getSizeVertical());
-    }
 }

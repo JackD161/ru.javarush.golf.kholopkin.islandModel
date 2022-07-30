@@ -2,18 +2,13 @@ package island;
 
 import animals.Animal;
 import animals.BaseObject;
-import animals.Direction;
 import animals.carnivores.Carnivore;
 import animals.carnivores.Wolf;
 import animals.herbivorous.Herbivorous;
 import animals.herbivorous.Sheep;
 import plants.Plant;
-import utils.PropertiesIsland;
 import utils.UniversalRandomizer;
-
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Location {
@@ -37,6 +32,7 @@ public class Location {
         else if (object instanceof Plant) {
             plants.remove(object);
         }
+        calculateAnimals();
     }
 
     public void come(BaseObject object) {
@@ -48,6 +44,22 @@ public class Location {
         } else if (object instanceof Plant) {
             plants.add((Plant) object);
         }
+        calculateAnimals();
+    }
+
+    private void calculateAnimals() {
+        int wolfs = 0;
+        int sheeps = 0;
+        for (Animal animal : herbivorous) {
+            if (animal instanceof Sheep)
+                sheeps++;
+        }
+        for (Animal animal : carnivores) {
+            if (animal instanceof Wolf)
+                wolfs++;
+        }
+        this.cntSheep = sheeps;
+        this.cntWolf = wolfs;
     }
 
     public Location(int x, int y) {

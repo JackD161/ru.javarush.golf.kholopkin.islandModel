@@ -6,6 +6,8 @@ import animals.carnivores.Wolf;
 import animals.herbivorous.Sheep;
 import utils.PropertiesIsland;
 import utils.UniversalRandomizer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Island {
 
@@ -38,8 +40,8 @@ public class Island {
 
     public void moveAnimalsOnLocation(Location currentLocation) {
         for (Animal animal : currentLocation.getAllAnimals()) {
-            Direction[] generateDirections = searchingDirectionToMove(animal);
-            move(animal, generateDirections[UniversalRandomizer.getRandomInteger(generateDirections.length)]);
+            List<Direction> generateDirections = searchingDirectionToMove(animal);
+            move(animal, generateDirections.get(UniversalRandomizer.getRandomInteger(generateDirections.size())));
         }
     }
 
@@ -74,30 +76,30 @@ public class Island {
         }
     }
 
-    private Direction[] searchingDirectionToMove(Animal animal) {
-        Direction[] directions = new Direction[]{Direction.HOLD, Direction.HOLD, Direction.HOLD, Direction.HOLD, Direction.HOLD};
+    private List<Direction> searchingDirectionToMove(Animal animal) {
+        List<Direction> directions = new ArrayList<>();
+        directions.add(Direction.HOLD);
         int[] coordinates = animal.getCoordinates();
         int x = coordinates[0];
         int y = coordinates[1];
-        if (x > 0 && x <= locations.length - 1) {
+        if (x > 0 && x < locations.length) {
             if (canMoveHere(animal, locations[x - 1][y]))
-                directions[0] = Direction.LEFT;
+                directions.add(Direction.LEFT);
         }
-        if (x < locations.length - 1 && x >= 0) {
+        if (x >=0 && x < locations.length - 1) {
             if (canMoveHere(animal, locations[x + 1][y]))
-                directions[1] = Direction.RIGHT;
+                directions.add(Direction.RIGHT);
         }
         // система координат перевернута и начинается с левого верхнего угла,
         // так что когда координата y увеличивается - это движение вниз, когда y уменьшается - вверх
-        if (y > 0 && y <= locations[0].length - 2) {
+        if (y >= 0 && y < locations[0].length - 1) {
             if (canMoveHere(animal, locations[x][y + 1]))
-                directions[2] = Direction.DOWN;
+                directions.add(Direction.DOWN);
         }
-        if (y <= locations[0].length - 1 && y > 0) {
+        if (y > 0 && y < locations[0].length) {
             if (canMoveHere(animal, locations[x][y - 1]))
-                directions[3] = Direction.UP;
+                directions.add(Direction.UP);
         }
-
         return directions;
     }
 
@@ -127,10 +129,6 @@ public class Island {
         island.print();
         island.moveAnimalsOnIsland();
         island.print();
-//        for (int i = 0; i < 5; i++) {
-//            island.print();
-//            island.moveAnimalsOnIsland();
-//        }
     }
 
 }
