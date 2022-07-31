@@ -9,4 +9,9 @@ public class Plant extends BaseObject {
     public Plant(int x, int y) {
         super(x, y);
     }
+
+    @Override
+    public String getSpecies() {
+        return "plant";
+    }
 }

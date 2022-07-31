@@ -9,6 +9,11 @@ public class Duck extends Herbivorous implements CanFly {
     }
 
     @Override
+    public String getSpecies() {
+        return "duck";
+    }
+
+    @Override
     public void fly(Direction direction) {
 
     }

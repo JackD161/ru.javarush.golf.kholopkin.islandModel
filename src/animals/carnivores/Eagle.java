@@ -9,6 +9,11 @@ public class Eagle extends Carnivore implements CanFly {
     }
 
     @Override
+    public String getSpecies() {
+        return "eagle";
+    }
+
+    @Override
     public void fly(Direction direction) {
 
     }

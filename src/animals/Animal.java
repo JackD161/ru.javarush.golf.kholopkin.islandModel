@@ -80,4 +80,5 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     public int[] getCoordinates() {
         return new int[]{x, y};
     }
+
 }

@@ -16,5 +16,7 @@ public abstract class BaseObject {
     //у объекта есть иконка для отображения
     public String icon;
 
+    public abstract String getSpecies();
+
 
 }

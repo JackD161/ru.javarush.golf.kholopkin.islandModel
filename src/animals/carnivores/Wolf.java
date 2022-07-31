@@ -8,4 +8,9 @@ public class Wolf extends Carnivore{
         super(x, y);
 
     }
+
+    @Override
+    public String getSpecies() {
+        return "wolf";
+    }
 }

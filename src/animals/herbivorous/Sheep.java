@@ -8,4 +8,9 @@ public class Sheep extends Herbivorous{
         super(x, y);
 
     }
+
+    @Override
+    public String getSpecies() {
+        return "sheep";
+    }
 }

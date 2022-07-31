@@ -4,4 +4,9 @@ public class Horse extends Herbivorous{
     public Horse(int x, int y) {
         super(x, y);
     }
+
+    @Override
+    public String getSpecies() {
+        return "horse";
+    }
 }
