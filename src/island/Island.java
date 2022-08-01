@@ -2,17 +2,15 @@ package island;
 
 import animals.Animal;
 import animals.Direction;
-import animals.carnivores.Wolf;
-import animals.herbivorous.Sheep;
+import animals.carnivores.*;
+import animals.herbivorous.*;
 import utils.PropertiesIsland;
 import utils.UniversalRandomizer;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Island {
-
-    PropertiesIsland propertiesIsland = new PropertiesIsland();
-    Location[][] locations = new Location[propertiesIsland.getSizeHorizontal()][propertiesIsland.getSizeVertical()];
+    Location[][] locations = new Location[PropertiesIsland.getSizeHorizontal()][PropertiesIsland.getSizeVertical()];
 
     public Island() {
         initialize();
@@ -22,9 +20,22 @@ public class Island {
         for (int x = 0; x < locations.length; x++) {
             for (int y = 0; y < locations[x].length; y++) {
                 Location location = new Location(x, y);
-                location.initWolf(propertiesIsland.getMaxCntWolf());
-                location.initSheep(propertiesIsland.getMaxCntSheep());
-                location.initPlants(propertiesIsland.getCntPlants());
+                location.initWolf(PropertiesIsland.getMaxCntWolf());
+                location.initSheep(PropertiesIsland.getMaxCntSheep());
+                location.initBears(PropertiesIsland.getMaxCntBear());
+                location.initBoa(PropertiesIsland.getMaxCntBoa());
+                location.initBoars(PropertiesIsland.getMaxCntBoar());
+                location.initEagles(PropertiesIsland.getMaxCntEagle());
+                location.initBuffalo(PropertiesIsland.getMaxCntBuffalo());
+                location.initCaterpillars(PropertiesIsland.getMaxCntCaterpillar());
+                location.initDeer(PropertiesIsland.getMaxCntDeer());
+                location.initDucks(PropertiesIsland.getMaxCntDuck());
+                location.initGoats(PropertiesIsland.getMaxCntGoat());
+                location.initHorses(PropertiesIsland.getMaxCntHorse());
+                location.initMouses(PropertiesIsland.getMaxCntMouse());
+                location.initRabbits(PropertiesIsland.getMaxCntRabbit());
+                location.initFox(PropertiesIsland.getMaxCntFox());
+                location.initPlants(PropertiesIsland.getCntPlants());
                 locations[x][y] = location;
             }
         }
@@ -76,6 +87,14 @@ public class Island {
         }
     }
 
+    public void eatAnimals() {
+        for (int x = 0; x < locations.length; x++) {
+            for (int y = 0; y < locations[0].length; y++) {
+                locations[x][y].eatAnimals();
+            }
+        }
+    }
+
     private List<Direction> searchingDirectionToMove(Animal animal) {
         List<Direction> directions = new ArrayList<>();
         directions.add(Direction.HOLD);
@@ -105,10 +124,49 @@ public class Island {
 
     private boolean canMoveHere(Animal animal, Location location) {
         if (animal instanceof Wolf) {
-            return location.getCntWolf() < propertiesIsland.getMaxCntWolf();
+            return location.getCntWolf() < PropertiesIsland.getMaxCntWolf();
         }
         else if (animal instanceof Sheep) {
-            return location.getCntSheep() < propertiesIsland.getMaxCntSheep();
+            return location.getCntSheep() < PropertiesIsland.getMaxCntSheep();
+        }
+        else if (animal instanceof Bear) {
+            return location.getCntBears() < PropertiesIsland.getMaxCntBear();
+        }
+        else if (animal instanceof Boa) {
+            return location.getCntBoas() < PropertiesIsland.getMaxCntBoa();
+        }
+        else if (animal instanceof Boar) {
+            return location.getCntBoars() < PropertiesIsland.getMaxCntBoar();
+        }
+        else if (animal instanceof Eagle) {
+            return location.getCntEagles() < PropertiesIsland.getMaxCntEagle();
+        }
+        else if (animal instanceof Fox) {
+            return location.getCntFoxs() < PropertiesIsland.getMaxCntFox();
+        }
+        else if (animal instanceof Buffalo) {
+            return location.getCntBuffalos() < PropertiesIsland.getMaxCntBuffalo();
+        }
+        else if (animal instanceof Caterpillar) {
+            return location.getCntCaterpilars() < PropertiesIsland.getMaxCntCaterpillar();
+        }
+        else if (animal instanceof Deer) {
+            return location.getCntDeers() < PropertiesIsland.getMaxCntDeer();
+        }
+        else if (animal instanceof Duck) {
+            return location.getCntDucks() < PropertiesIsland.getMaxCntDuck();
+        }
+        else if (animal instanceof Goat) {
+            return location.getCntGoats() < PropertiesIsland.getMaxCntGoat();
+        }
+        else if (animal instanceof Horse) {
+            return location.getCntHorses() < PropertiesIsland.getMaxCntHorse();
+        }
+        else if (animal instanceof Mouse) {
+            return location.getCntMouses() < PropertiesIsland.getMaxCntMouse();
+        }
+        else if (animal instanceof Rabbit) {
+            return location.getCntRabbits() < PropertiesIsland.getMaxCntRabbit();
         }
         else {
             return false;
@@ -120,14 +178,18 @@ public class Island {
             for (int y = 0; y < locations[x].length; y++) {
                 System.out.println(locations[x][y].toString());
             }
-            System.out.println();
         }
     }
 
     public static void main(String[] args) {
+        System.out.println("Создали остров и отрисовали остров");
         Island island = new Island();
         island.print();
+        System.out.println("подвигали животных и отрисовали остров");
         island.moveAnimalsOnIsland();
+        island.print();
+        System.out.println("пожрали животные и отрисовали остров");
+        island.eatAnimals();
         island.print();
     }
 

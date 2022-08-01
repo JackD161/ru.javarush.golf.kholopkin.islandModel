@@ -1,8 +1,14 @@
 package animals.herbivorous;
+
+import utils.PropertiesIsland;
+import utils.UniversalRandomizer;
+
 // овца
 public class Sheep extends Herbivorous{
     {
-        icon = "\uD83D\uDC11";
+        icon = PropertiesIsland.getSheepIcon();
+        diet = PropertiesIsland.getSheep();
+        weight = UniversalRandomizer.getRandomInteger(PropertiesIsland.getWeightSheep());
     }
     public Sheep(int x, int y) {
         super(x, y);

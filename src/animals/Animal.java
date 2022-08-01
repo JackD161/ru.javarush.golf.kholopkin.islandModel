@@ -1,6 +1,7 @@
 package animals;
 
 import utils.UniversalRandomizer;
+import java.util.Map;
 
 // базовый класс животных
 public abstract class Animal extends BaseObject implements CanEat, CanMove, Reproduce {
@@ -70,7 +71,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     }
 
     public int getFood() {
-        return weight / 3;
+        return (int) weight / 3;
     }
 
     public int getNeedFood() {
@@ -80,5 +81,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     public int[] getCoordinates() {
         return new int[]{x, y};
     }
+
+    public Map<String, Integer> diet;
 
 }

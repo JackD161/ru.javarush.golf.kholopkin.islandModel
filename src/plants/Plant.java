@@ -1,10 +1,11 @@
 package plants;
 // базовый класс растений
 import animals.BaseObject;
+import utils.PropertiesIsland;
 
 public class Plant extends BaseObject {
     {
-        icon = "\uD83C\uDF3F";
+        icon = PropertiesIsland.getPlantIcon();
     }
     public Plant(int x, int y) {
         super(x, y);
