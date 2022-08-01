@@ -67,7 +67,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     }
 
     public boolean isHungry() {
-        return isHungry();
+        return hungry;
     }
 
     public int getFood() {
