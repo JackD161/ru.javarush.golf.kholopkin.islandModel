@@ -1,13 +1,15 @@
 package IslandModel.island;
 
 import IslandModel.animal.Animal;
+import IslandModel.animal.BaseObject;
+import IslandModel.animal.CanMove;
 import IslandModel.animal.Direction;
 import IslandModel.animal.carnivore.*;
 import IslandModel.animal.herbivore.*;
 import IslandModel.utils.PropertiesIsland;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Island {
     Location[][] locations = new Location[PropertiesIsland.getSizeHorizontal()][PropertiesIsland.getSizeVertical()];
@@ -33,43 +35,40 @@ public class Island {
     }
 
     public void moveAnimalsOnLocation(Location currentLocation) {
-
-//        for (Animal animal : currentLocation.getAllAnimals()) {
-//            List<Direction> generateDirections = searchingDirectionToMove(animal);
-//            move(animal, generateDirections.get(ThreadLocalRandom.current().nextInt(generateDirections.size())));
-//        }
+        Set<String> items = new HashSet<>(currentLocation.getItems());
+        for (String item : items) {
+            if (currentLocation.getItemByKey(item) instanceof CanMove) {
+                List<Direction> generateDirections = searchingDirectionToMove(currentLocation, currentLocation.getItemByKey(item));
+                move(currentLocation, currentLocation.getItemByKey(item), generateDirections.get(ThreadLocalRandom.current().nextInt(generateDirections.size())));
+            }
+        }
     }
 
-    private void move(Animal animal, Direction direction) {
-//        Coordinates coordinates = animal.getCoordinates();
-//        int x = coordinates.getX();
-//        int y = coordinates.getY();
-//        switch (direction) {
-//            case UP -> {
-//                locations[x][y].away(animal);
-//                locations[x][y - 1].come(animal);
-//                animal.move(Direction.UP);
-//            }
-//            case DOWN -> {
-//                locations[x][y].away(animal);
-//                locations[x][y + 1].come(animal);
-//                animal.move(Direction.DOWN);
-//            }
-//            case LEFT -> {
-//                locations[x][y].away(animal);
-//                locations[x - 1][y].come(animal);
-//                animal.move(Direction.LEFT);
-//            }
-//            case RIGHT -> {
-//                locations[x][y].away(animal);
-//                locations[x + 1][y].come(animal);
-//                animal.move(Direction.RIGHT);
-//            }
-//            case HOLD -> {
-//
-//            }
-//        }
-    }
+    private void move(Location location, BaseObject object, Direction direction) {
+        int x = location.getCoordinates().getX();
+        int y = location.getCoordinates().getY();
+            switch (direction) {
+                case UP -> {
+                    locations[x][y].comeOrAway(object, false);
+                    locations[x][y - 1].comeOrAway(object, true);
+                }
+                case DOWN -> {
+                    locations[x][y].comeOrAway(object, false);
+                    locations[x][y + 1].comeOrAway(object, true);
+                }
+                case LEFT -> {
+                    locations[x][y].comeOrAway(object, false);
+                    locations[x - 1][y].comeOrAway(object, true);
+                }
+                case RIGHT -> {
+                    locations[x][y].comeOrAway(object, false);
+                    locations[x + 1][y].comeOrAway(object, true);
+                }
+                case HOLD -> {
+
+                }
+            }
+        }
 
     public void eatAnimals() {
         for (int x = 0; x < locations.length; x++) {
@@ -79,77 +78,76 @@ public class Island {
         }
     }
 
-    private List<Direction> searchingDirectionToMove(Animal animal) {
+    private List<Direction> searchingDirectionToMove(Location location, BaseObject object) {
         List<Direction> directions = new ArrayList<>();
-//        directions.add(Direction.HOLD);
-//        int[] coordinates = animal.getCoordinates();
-//        int x = coordinates[0];
-//        int y = coordinates[1];
-//        if (x > 0 && x < locations.length) {
-//            if (canMoveHere(animal, locations[x - 1][y]))
-//                directions.add(Direction.LEFT);
-//        }
-//        if (x >=0 && x < locations.length - 1) {
-//            if (canMoveHere(animal, locations[x + 1][y]))
-//                directions.add(Direction.RIGHT);
-//        }
-//        // система координат перевернута и начинается с левого верхнего угла,
-//        // так что когда координата y увеличивается - это движение вниз, когда y уменьшается - вверх
-//        if (y >= 0 && y < locations[0].length - 1) {
-//            if (canMoveHere(animal, locations[x][y + 1]))
-//                directions.add(Direction.DOWN);
-//        }
-//        if (y > 0 && y < locations[0].length) {
-//            if (canMoveHere(animal, locations[x][y - 1]))
-//                directions.add(Direction.UP);
-//        }
-        return directions;
-    }
+        directions.add(Direction.HOLD);
+        int x = location.getCoordinates().getX();
+        int y = location.getCoordinates().getY();
+        if (x > 0 && x < locations.length) {
+            if (canMoveHere(object, locations[x - 1][y]))
+                directions.add(Direction.LEFT);
+        }
+        if (x >=0 && x < locations.length - 1) {
+            if (canMoveHere(object, locations[x + 1][y]))
+                directions.add(Direction.RIGHT);
+        }
+        // система координат перевернута и начинается с левого верхнего угла,
+        // так что когда координата y увеличивается - это движение вниз, когда y уменьшается - вверх
+        if (y >= 0 && y < locations[0].length - 1) {
+            if (canMoveHere(object, locations[x][y + 1]))
+                directions.add(Direction.DOWN);
+        }
+        if (y > 0 && y < locations[0].length) {
+            if (canMoveHere(object, locations[x][y - 1]))
+                directions.add(Direction.UP);
+        }
+            return directions;
+        }
 
-    private boolean canMoveHere(Animal animal, Location location) {
-        if (animal instanceof Wolf) {
+    private boolean canMoveHere(BaseObject object, Location location) {
+        if (object instanceof Wolf) {
             return location.getCntWolf() < PropertiesIsland.getMaxCntWolf();
         }
-        else if (animal instanceof Sheep) {
+        else if (object instanceof Sheep) {
             return location.getCntSheep() < PropertiesIsland.getMaxCntSheep();
         }
-        else if (animal instanceof Bear) {
+        else if (object instanceof Bear) {
             return location.getCntBears() < PropertiesIsland.getMaxCntBear();
         }
-        else if (animal instanceof Boa) {
+        else if (object instanceof Boa) {
             return location.getCntBoas() < PropertiesIsland.getMaxCntBoa();
         }
-        else if (animal instanceof Boar) {
+        else if (object instanceof Boar) {
             return location.getCntBoars() < PropertiesIsland.getMaxCntBoar();
         }
-        else if (animal instanceof Eagle) {
+        else if (object instanceof Eagle) {
             return location.getCntEagles() < PropertiesIsland.getMaxCntEagle();
         }
-        else if (animal instanceof Fox) {
+        else if (object instanceof Fox) {
             return location.getCntFoxs() < PropertiesIsland.getMaxCntFox();
         }
-        else if (animal instanceof Buffalo) {
+        else if (object instanceof Buffalo) {
             return location.getCntBuffalos() < PropertiesIsland.getMaxCntBuffalo();
         }
-        else if (animal instanceof Caterpillar) {
+        else if (object instanceof Caterpillar) {
             return location.getCntCaterpilars() < PropertiesIsland.getMaxCntCaterpillar();
         }
-        else if (animal instanceof Deer) {
+        else if (object instanceof Deer) {
             return location.getCntDeers() < PropertiesIsland.getMaxCntDeer();
         }
-        else if (animal instanceof Duck) {
+        else if (object instanceof Duck) {
             return location.getCntDucks() < PropertiesIsland.getMaxCntDuck();
         }
-        else if (animal instanceof Goat) {
+        else if (object instanceof Goat) {
             return location.getCntGoats() < PropertiesIsland.getMaxCntGoat();
         }
-        else if (animal instanceof Horse) {
+        else if (object instanceof Horse) {
             return location.getCntHorses() < PropertiesIsland.getMaxCntHorse();
         }
-        else if (animal instanceof Mouse) {
+        else if (object instanceof Mouse) {
             return location.getCntMouses() < PropertiesIsland.getMaxCntMouse();
         }
-        else if (animal instanceof Rabbit) {
+        else if (object instanceof Rabbit) {
             return location.getCntRabbits() < PropertiesIsland.getMaxCntRabbit();
         }
         else {

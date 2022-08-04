@@ -2,15 +2,13 @@ package IslandModel.island;
 
 import IslandModel.animal.Animal;
 import IslandModel.animal.BaseObject;
+import IslandModel.animal.CanEat;
 import IslandModel.animal.carnivore.*;
 import IslandModel.animal.herbivore.*;
 import IslandModel.plant.Plant;
 import IslandModel.utils.Coordinates;
 import IslandModel.utils.PropertiesIsland;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Location {
@@ -32,26 +30,75 @@ public class Location {
     private int cntMouses;
     private int cntRabbits;
     // Списки где будут хранитсья находящиеся на локации сущности
-    private final Map<String, Animal> animals;
-    private final List<Plant> plants;
+    private final Map<String, BaseObject> items;
 
-    public void away(BaseObject object) {
-        if (object instanceof Animal)
-            animals.remove(((Animal) object).getName());
-        else if (object instanceof Plant)
-            plants.remove(object);
+    public int getCntPlants() {
+        return cntPlants;
     }
 
-    public void come(BaseObject object) {
-        if (object instanceof Animal)
-            animals.put(((Animal) object).getName(), (Animal) object);
+    public Set<String> getItems() {
+        return items.keySet();
+    }
 
+    public BaseObject getItemByKey(String key) {
+        return items.get(key);
+    }
+
+    public void comeOrAway(BaseObject object, boolean come) {
+        int value;
+        if (come)
+            value = 1;
+        else
+            value = -1;
+        if (object instanceof Bear)
+            cntBears += value;
+        else if (object instanceof Boa)
+            cntBoas += value;
+        else if (object instanceof Boar)
+            cntBoars += value;
+        else if (object instanceof Eagle)
+            cntEagles += value;
+        else if (object instanceof Fox)
+            cntFoxs += value;
+        else if (object instanceof Wolf)
+            cntWolf += value;
+        else if (object instanceof Buffalo)
+            cntBuffalos += value;
+        else if (object instanceof Caterpillar)
+            cntCaterpilars += value;
+        else if (object instanceof Deer)
+            cntDeers += value;
+        else if (object instanceof Duck)
+            cntDucks += value;
+        else if (object instanceof Goat)
+            cntGoats += value;
+        else if (object instanceof Horse)
+            cntHorses += value;
+        else if (object instanceof Mouse)
+            cntMouses += value;
+        else if (object instanceof Rabbit)
+            cntRabbits += value;
+        else if (object instanceof Sheep)
+            cntSheep += value;
+        else if (object instanceof Plant)
+            cntPlants += value;
+        if (come) {
+            if (object instanceof Animal)
+                items.put(((Animal) object).getName(), (Animal) object);
+            else if (object instanceof Plant)
+                items.put(((Plant) object).getName(), (Plant) object);
+        }
+        else {
+            if (object instanceof Animal)
+                items.remove(((Animal) object).getName());
+            else if (object instanceof Plant)
+                items.remove(((Plant) object).getName());
+        }
     }
 
     public Location(int x, int y) {
         coordinates = new Coordinates(x, y);
-        animals = new HashMap<>();
-        plants = new ArrayList<>();
+        items = new HashMap<>();
         initizlileLocation();
     }
 
@@ -126,7 +173,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Wolf animal = new Wolf();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntWolf++;
         }
@@ -136,7 +183,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Sheep animal = new Sheep();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntSheep++;
         }
@@ -146,7 +193,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Bear animal = new Bear();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntBears++;
         }
@@ -155,7 +202,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Boar animal = new Boar();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntBoars++;
         }
@@ -164,7 +211,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Buffalo animal = new Buffalo();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntBuffalos++;
         }
@@ -173,7 +220,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Caterpillar animal = new Caterpillar();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntCaterpilars++;
         }
@@ -183,7 +230,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Deer animal = new Deer();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntDeers++;
         }
@@ -193,7 +240,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Duck animal = new Duck();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntDucks++;
         }
@@ -203,7 +250,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Goat animal = new Goat();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntGoats++;
         }
@@ -213,7 +260,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Horse animal = new Horse();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntHorses++;
         }
@@ -223,7 +270,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Mouse animal = new Mouse();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntMouses++;
         }
@@ -233,7 +280,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Rabbit animal = new Rabbit();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntRabbits++;
         }
@@ -242,7 +289,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Fox animal = new Fox();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntFoxs++;
         }
@@ -251,7 +298,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Eagle animal = new Eagle();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntEagles++;
         }
@@ -260,7 +307,7 @@ public class Location {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
             Boa animal = new Boa();
-            animals.put(animal.getName(), animal);
+            items.put(animal.getName(), animal);
             rnd--;
             cntBoas++;
         }
@@ -269,7 +316,8 @@ public class Location {
     private void initPlants(int maxCnt) {
         int rnd = ThreadLocalRandom.current().nextInt(maxCnt / 2, maxCnt);
         while(rnd > 0) {
-            plants.add(new Plant());
+            Plant plant = new Plant();
+            items.put(plant.getName(), plant);
             rnd--;
             cntPlants++;
         }
@@ -295,19 +343,38 @@ public class Location {
     }
 
     public void eatAnimals() {
-
+        Set<String> eatedAmimals = new HashSet<>();
+        for (Map.Entry<String, BaseObject> hunter : items.entrySet()) {
+            for (Map.Entry<String, BaseObject> prey : items.entrySet()) {
+                if (hunter.getValue() instanceof CanEat) {
+                    int rndChance = ThreadLocalRandom.current().nextInt(hunter.getValue().diet.get(prey.getValue().getSpecies()));
+                    if (rndChance < ThreadLocalRandom.current().nextInt(101)) {
+                        ((CanEat) hunter.getValue()).eat(prey.getValue().getFood());
+                        eatedAmimals.add(prey.getKey());
+                    }
+                }
+            }
+        }
+        for (String away : eatedAmimals) {
+            items.remove(away);
+        }
     }
 
     // копушать травку
     private int eatGrass(int howMany) {
-        if (howMany > plants.size()) {
-            howMany = plants.size();
-            plants.clear();
+        if (howMany > cntPlants) {
+            howMany = cntPlants;
+            cntPlants = 0;
             return howMany;
         }
         else {
-            for(int i = 0; i < howMany; i++) {
-                plants.remove(i);
+            int cnt = howMany;
+            Iterator<Map.Entry<String, BaseObject>> iterator = items.entrySet().iterator();
+            while (cnt > 0) {
+                BaseObject object = iterator.next().getValue();
+                if (object instanceof Plant)
+                    iterator.remove();
+                cnt--;
             }
             return howMany;
         }
@@ -320,13 +387,15 @@ public class Location {
             plant = ThreadLocalRandom.current().nextInt(cntPlants / 3);
         }
         else {
-            plant = ThreadLocalRandom.current().nextInt(cntPlants + 1);
+            plant = ThreadLocalRandom.current().nextInt(cntPlants + 2);
         }
         while(plant > 0) {
-            plants.add(new Plant());
+            Plant plant1 = new Plant();
+            items.put(plant1.getName(), plant1);
             plant--;
         }
     }
+
 
     @Override
     public String toString() {
