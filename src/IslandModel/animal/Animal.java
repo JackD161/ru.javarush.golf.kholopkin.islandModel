@@ -32,8 +32,9 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
      */
 
     @Override
-    public void eat(int howMany) {
+    public void eat(int howMany, String animal) {
         satiety += howMany;
+        System.out.println(this.getSpecies() + " сожрал " + animal);
     }
 
     @Override

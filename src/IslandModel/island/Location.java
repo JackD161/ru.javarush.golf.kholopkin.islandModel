@@ -84,15 +84,15 @@ public class Location {
             cntPlants += value;
         if (come) {
             if (object instanceof Animal)
-                items.put(((Animal) object).getName(), (Animal) object);
+                items.put((object).getName(), object);
             else if (object instanceof Plant)
-                items.put(((Plant) object).getName(), (Plant) object);
+                items.put((object).getName(), object);
         }
         else {
             if (object instanceof Animal)
-                items.remove(((Animal) object).getName());
+                items.remove((object).getName());
             else if (object instanceof Plant)
-                items.remove(((Plant) object).getName());
+                items.remove((object).getName());
         }
     }
 
@@ -326,37 +326,38 @@ public class Location {
     private void initizlileLocation() {
         initWolf(PropertiesIsland.getMaxCntWolf());
         initSheep(PropertiesIsland.getMaxCntSheep());
-        initBears(PropertiesIsland.getMaxCntBear());
-        initBoa(PropertiesIsland.getMaxCntBoa());
-        initBoars(PropertiesIsland.getMaxCntBoar());
-        initEagles(PropertiesIsland.getMaxCntEagle());
-        initBuffalo(PropertiesIsland.getMaxCntBuffalo());
+//        initBears(PropertiesIsland.getMaxCntBear());
+//        initBoa(PropertiesIsland.getMaxCntBoa());
+//        initBoars(PropertiesIsland.getMaxCntBoar());
+//        initEagles(PropertiesIsland.getMaxCntEagle());
+//        initBuffalo(PropertiesIsland.getMaxCntBuffalo());
         initCaterpillars(PropertiesIsland.getMaxCntCaterpillar());
-        initDeer(PropertiesIsland.getMaxCntDeer());
-        initDucks(PropertiesIsland.getMaxCntDuck());
-        initGoats(PropertiesIsland.getMaxCntGoat());
-        initHorses(PropertiesIsland.getMaxCntHorse());
-        initMouses(PropertiesIsland.getMaxCntMouse());
-        initRabbits(PropertiesIsland.getMaxCntRabbit());
-        initFox(PropertiesIsland.getMaxCntFox());
+//        initDeer(PropertiesIsland.getMaxCntDeer());
+//        initDucks(PropertiesIsland.getMaxCntDuck());
+//        initGoats(PropertiesIsland.getMaxCntGoat());
+//        initHorses(PropertiesIsland.getMaxCntHorse());
+//        initMouses(PropertiesIsland.getMaxCntMouse());
+//        initRabbits(PropertiesIsland.getMaxCntRabbit());
+//        initFox(PropertiesIsland.getMaxCntFox());
         initPlants(PropertiesIsland.getCntPlants());
     }
 
     public void eatAnimals() {
         Set<String> eatedAmimals = new HashSet<>();
-        for (Map.Entry<String, BaseObject> hunter : items.entrySet()) {
-            for (Map.Entry<String, BaseObject> prey : items.entrySet()) {
-                if (hunter.getValue() instanceof CanEat) {
-                    int rndChance = ThreadLocalRandom.current().nextInt(hunter.getValue().diet.get(prey.getValue().getSpecies()));
-                    if (rndChance < ThreadLocalRandom.current().nextInt(101)) {
-                        ((CanEat) hunter.getValue()).eat(prey.getValue().getFood());
+        for (Map.Entry<String, BaseObject> item : items.entrySet()) {
+            if (item.getValue() instanceof CanEat) {
+                Animal hunter = (Animal) item.getValue();
+                for (Map.Entry<String, BaseObject> prey : items.entrySet()) {
+                    if (PropertiesIsland.getDietByAnimal(hunter.getSpecies(), prey.getValue().getSpecies()) >= ThreadLocalRandom.current().nextInt(101)) {
+                        hunter.eat(prey.getValue().getFood(), prey.getValue().getSpecies());
                         eatedAmimals.add(prey.getKey());
+                        break;
                     }
                 }
             }
         }
         for (String away : eatedAmimals) {
-            items.remove(away);
+            comeOrAway(items.get(away), false);
         }
     }
 
@@ -394,6 +395,11 @@ public class Location {
             items.put(plant1.getName(), plant1);
             plant--;
         }
+    }
+
+    public void reproduceAnimals() {
+        Iterator<Map.Entry<String, BaseObject>> iterator = items.entrySet().iterator();
+
     }
 
 

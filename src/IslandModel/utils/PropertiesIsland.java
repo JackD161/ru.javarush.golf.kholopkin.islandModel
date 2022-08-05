@@ -100,6 +100,7 @@ public class PropertiesIsland {
     private static float weightCaterpillar;
     private static int weightPlant;
 
+
     static {
         try (FileInputStream fis = new FileInputStream("src/IslandModel/resources/island.properties")) {
             Properties properties = new Properties();
@@ -213,8 +214,6 @@ public class PropertiesIsland {
             initializeDefaultProperties();
         }
     }
-
-
     public static int getMaxCntSheep() {
         return maxCntSheep;
     }
@@ -398,10 +397,6 @@ public class PropertiesIsland {
         return rabbitIcon;
     }
 
-    public static int getCountHerbivorous() {
-        return countHerbivorous;
-    }
-
     public static int getWeightWolf() {
         return weightWolf;
     }
@@ -466,9 +461,6 @@ public class PropertiesIsland {
         return weightPlant;
     }
 
-    public static int getCountCarnivores() {
-        return countCarnivores;
-    }
     public static int getMaxCntWolf() {
         return maxCntWolf;
     }
@@ -524,63 +516,25 @@ public class PropertiesIsland {
     public static int getCntPlants() {
         return cntPlants;
     }
-    public static Map<String, Integer> getWolf() {
-        return wolf;
-    }
 
-    public static Map<String, Integer> getBoa() {
-        return boa;
-    }
-
-    public static Map<String, Integer> getFox() {
-        return fox;
-    }
-
-    public static Map<String, Integer> getBear() {
-        return bear;
-    }
-
-    public static Map<String, Integer> getEagle() {
-        return eagle;
-    }
-
-    public static Map<String, Integer> getHorse() {
-        return horse;
-    }
-
-    public static Map<String, Integer> getDeer() {
-        return deer;
-    }
-
-    public static Map<String, Integer> getRabbit() {
-        return rabbit;
-    }
-
-    public static Map<String, Integer> getMouse() {
-        return mouse;
-    }
-
-    public static Map<String, Integer> getGoat() {
-        return goat;
-    }
-
-    public static Map<String, Integer> getSheep() {
-        return sheep;
-    }
-
-    public static Map<String, Integer> getBoar() {
-        return boar;
-    }
-
-    public static Map<String, Integer> getBuffalo() {
-        return buffalo;
-    }
-
-    public static Map<String, Integer> getDuck() {
-        return duck;
-    }
-
-    public static Map<String, Integer> getCaterpillar() {
-        return caterpillar;
+    public static int getDietByAnimal(String hunter, String prey) {
+        return switch (hunter) {
+            case "bear" -> bear.get(prey);
+            case "boa" -> boa.get(prey);
+            case "boar" -> boar.get(prey);
+            case "eagle" -> eagle.get(prey);
+            case "fox" -> fox.get(prey);
+            case "wolf" -> wolf.get(prey);
+            case "buffalo" -> buffalo.get(prey);
+            case "caterpillar" -> caterpillar.get(prey);
+            case "deer" -> deer.get(prey);
+            case "duck" -> duck.get(prey);
+            case "goat" -> goat.get(prey);
+            case "horse" -> horse.get(prey);
+            case "mouse" -> mouse.get(prey);
+            case "rabbit" -> rabbit.get(prey);
+            case "sheep" -> sheep.get(prey);
+            default -> 0;
+        };
     }
 }

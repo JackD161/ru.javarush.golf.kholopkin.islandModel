@@ -22,7 +22,6 @@ public abstract class BaseObject {
         name = getSpecies() + ++INDEXanimal;
     }
 
-    public Map<String, Integer> diet;
 
     public int getFood() {
         return (int) weight / 3;

@@ -3,14 +3,12 @@ package IslandModel.animal.herbivore;
 import IslandModel.animal.CanFly;
 import IslandModel.animal.Direction;
 import IslandModel.utils.PropertiesIsland;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Duck extends Herbivorous implements CanFly {
     public static String icon = PropertiesIsland.getDuckIcon();
 
     public Duck() {
-        diet = PropertiesIsland.getDuck();
         weight = ThreadLocalRandom.current().nextInt(2) + ThreadLocalRandom.current().nextFloat();
     }
 
