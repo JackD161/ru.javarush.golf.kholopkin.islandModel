@@ -326,19 +326,19 @@ public class Location {
     private void initizlileLocation() {
         initWolf(PropertiesIsland.getMaxCntWolf());
         initSheep(PropertiesIsland.getMaxCntSheep());
-//        initBears(PropertiesIsland.getMaxCntBear());
-//        initBoa(PropertiesIsland.getMaxCntBoa());
-//        initBoars(PropertiesIsland.getMaxCntBoar());
-//        initEagles(PropertiesIsland.getMaxCntEagle());
-//        initBuffalo(PropertiesIsland.getMaxCntBuffalo());
+        initBears(PropertiesIsland.getMaxCntBear());
+        initBoa(PropertiesIsland.getMaxCntBoa());
+        initBoars(PropertiesIsland.getMaxCntBoar());
+        initEagles(PropertiesIsland.getMaxCntEagle());
+        initBuffalo(PropertiesIsland.getMaxCntBuffalo());
         initCaterpillars(PropertiesIsland.getMaxCntCaterpillar());
-//        initDeer(PropertiesIsland.getMaxCntDeer());
-//        initDucks(PropertiesIsland.getMaxCntDuck());
-//        initGoats(PropertiesIsland.getMaxCntGoat());
-//        initHorses(PropertiesIsland.getMaxCntHorse());
-//        initMouses(PropertiesIsland.getMaxCntMouse());
-//        initRabbits(PropertiesIsland.getMaxCntRabbit());
-//        initFox(PropertiesIsland.getMaxCntFox());
+        initDeer(PropertiesIsland.getMaxCntDeer());
+        initDucks(PropertiesIsland.getMaxCntDuck());
+        initGoats(PropertiesIsland.getMaxCntGoat());
+        initHorses(PropertiesIsland.getMaxCntHorse());
+        initMouses(PropertiesIsland.getMaxCntMouse());
+        initRabbits(PropertiesIsland.getMaxCntRabbit());
+        initFox(PropertiesIsland.getMaxCntFox());
         initPlants(PropertiesIsland.getCntPlants());
     }
 
@@ -348,7 +348,11 @@ public class Location {
             if (item.getValue() instanceof CanEat) {
                 Animal hunter = (Animal) item.getValue();
                 for (Map.Entry<String, BaseObject> prey : items.entrySet()) {
-                    if (PropertiesIsland.getDietByAnimal(hunter.getSpecies(), prey.getValue().getSpecies()) >= ThreadLocalRandom.current().nextInt(101)) {
+                    String species = hunter.getSpecies();
+                    String spec2 = prey.getValue().getSpecies();
+                    int diet = PropertiesIsland.getDietByAnimal(species, spec2);
+                    int random = ThreadLocalRandom.current().nextInt(101);
+                    if (diet >= random) {
                         hunter.eat(prey.getValue().getFood(), prey.getValue().getSpecies());
                         eatedAmimals.add(prey.getKey());
                         break;
