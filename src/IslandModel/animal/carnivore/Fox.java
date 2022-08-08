@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Fox extends Carnivore{
     public Fox() {
         weight = ThreadLocalRandom.current().nextInt(PropertiesIsland.getWeightFox());
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceFox();
     }
     public static String icon = PropertiesIsland.getFoxIcon();
 

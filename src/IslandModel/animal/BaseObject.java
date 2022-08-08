@@ -26,7 +26,6 @@ public abstract class BaseObject {
 
     public void die() {
         isAlive = false;
-        System.out.println(getName() + " сдох");
     }
 
     public boolean isAlive() {

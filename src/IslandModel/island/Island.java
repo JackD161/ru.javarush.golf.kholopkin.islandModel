@@ -185,6 +185,7 @@ public class Island {
         island.print();
         System.out.println("Животные размножаются и отрисовываем остров");
         island.reproduceAnimals();
+        island.print();
     }
 
 }

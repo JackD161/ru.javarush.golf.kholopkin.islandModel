@@ -4,6 +4,8 @@ out/
 !**/src/test/**/out/
 .idea
 *.iml
+/src/IslandModel/resources/log.txt
+
 
 ### Eclipse ###
 .apt_generated
@@ -29,3 +31,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+

@@ -8,6 +8,7 @@ public class Sheep extends Herbivorous{
     public static String icon = PropertiesIsland.getSheepIcon();
     public Sheep() {
         weight = ThreadLocalRandom.current().nextInt(PropertiesIsland.getWeightSheep());
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceSheep();
     }
 
     @Override

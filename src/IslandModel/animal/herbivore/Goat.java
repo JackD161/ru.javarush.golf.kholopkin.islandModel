@@ -9,6 +9,7 @@ public class Goat extends Herbivorous{
 
     public Goat() {
         weight = ThreadLocalRandom.current().nextInt(PropertiesIsland.getWeightGoat());
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceGoat();
     }
 
     @Override

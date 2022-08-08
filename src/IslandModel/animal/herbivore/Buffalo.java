@@ -10,6 +10,7 @@ public class Buffalo extends Herbivorous {
 
     public Buffalo() {
         weight = ThreadLocalRandom.current().nextInt(PropertiesIsland.getWeightBuffalo());
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceBuffalo();
     }
 
     @Override

@@ -9,6 +9,7 @@ public class Caterpillar extends Herbivorous{
     private float weight;
     public Caterpillar() {
         weight = ThreadLocalRandom.current().nextInt(2) + ThreadLocalRandom.current().nextFloat();
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceCaterpillar();
     }
 
     @Override

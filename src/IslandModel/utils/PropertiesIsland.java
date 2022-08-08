@@ -1,7 +1,5 @@
 package IslandModel.utils;
 
-import IslandModel.animal.BaseObject;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -101,6 +99,21 @@ public class PropertiesIsland {
     private static float weightDuck;
     private static float weightCaterpillar;
     private static int weightPlant;
+    private static int maxPopulationToReproduceBear;
+    private static int maxPopulationToReproduceBoa;
+    private static int maxPopulationToReproduceEagle;
+    private static int  maxPopulationToReproduceFox;
+    private static int maxPopulationToReproduceWolf;
+    private static int maxPopulationToReproduceBoar;
+    private static int maxPopulationToReproduceBuffalo;
+    private static int maxPopulationToReproduceCaterpillar;
+    private static int maxPopulationToReproduceDeer;
+    private static int maxPopulationToReproduceDuck;
+    private static int maxPopulationToReproduceGoat;
+    private static int maxPopulationToReproduceHorse;
+    private static int maxPopulationToReproduceMouse;
+    private static int maxPopulationToReproduceRabbit;
+    private static int maxPopulationToReproduceSheep;
 
 
     static {
@@ -210,6 +223,21 @@ public class PropertiesIsland {
             weightDuck = Float.parseFloat(properties.getProperty("weightDuck", "1"));
             weightCaterpillar = Float.parseFloat(properties.getProperty("weightCaterpillar", "0.01"));
             weightPlant = Integer.parseInt(properties.getProperty("weightPlant", "1"));
+            maxPopulationToReproduceBear = Integer.parseInt(properties.getProperty("maxPopulationToReproduceBear", "4"));
+            maxPopulationToReproduceBoa = Integer.parseInt(properties.getProperty("maxPopulationToReproduceBoa", "8"));
+            maxPopulationToReproduceEagle = Integer.parseInt(properties.getProperty("maxPopulationToReproduceEagle", "3"));
+            maxPopulationToReproduceFox = Integer.parseInt(properties.getProperty("maxPopulationToReproduceFox", "4"));
+            maxPopulationToReproduceWolf = Integer.parseInt(properties.getProperty("maxPopulationToReproduceWolf", "4"));
+            maxPopulationToReproduceBoar = Integer.parseInt(properties.getProperty("maxPopulationToReproduceBoar", "6"));
+            maxPopulationToReproduceBuffalo = Integer.parseInt(properties.getProperty("maxPopulationToReproduceBuffalo", "2"));
+            maxPopulationToReproduceCaterpillar = Integer.parseInt(properties.getProperty("maxPopulationToReproduceCaterpillar", "10"));
+            maxPopulationToReproduceDeer = Integer.parseInt(properties.getProperty("maxPopulationToReproduceDeer", "2"));
+            maxPopulationToReproduceDuck = Integer.parseInt(properties.getProperty("maxPopulationToReproduceDuck", "6"));
+            maxPopulationToReproduceGoat = Integer.parseInt(properties.getProperty("maxPopulationToReproduceGoat", "3"));
+            maxPopulationToReproduceHorse = Integer.parseInt(properties.getProperty("maxPopulationToReproduceHorse", "1"));
+            maxPopulationToReproduceMouse = Integer.parseInt(properties.getProperty("maxPopulationToReproduceMouse", "15"));
+            maxPopulationToReproduceRabbit = Integer.parseInt(properties.getProperty("maxPopulationToReproduceRabbit", "20"));
+            maxPopulationToReproduceSheep = Integer.parseInt(properties.getProperty("maxPopulationToReproduceSheep", "4"));
         }
         catch (IOException e) {
             System.err.print("Что то пошло не так при загрузке параметров острова из файла, используем стандартные параметры");
@@ -313,6 +341,21 @@ public class PropertiesIsland {
             duck.put(species[i], Integer.parseInt(duckList[i]));
             caterpillar.put(species[i], Integer.parseInt(caterpillarList[i]));
         }
+        maxPopulationToReproduceBear = 4;
+        maxPopulationToReproduceBoa = 8;
+        maxPopulationToReproduceEagle = 3;
+        maxPopulationToReproduceFox = 4;
+        maxPopulationToReproduceWolf = 4;
+        maxPopulationToReproduceBoar = 6;
+        maxPopulationToReproduceBuffalo = 2;
+        maxPopulationToReproduceCaterpillar = 10;
+        maxPopulationToReproduceDeer = 2;
+        maxPopulationToReproduceDuck = 6;
+        maxPopulationToReproduceGoat = 3;
+        maxPopulationToReproduceHorse = 1;
+        maxPopulationToReproduceMouse = 15;
+        maxPopulationToReproduceRabbit = 20;
+        maxPopulationToReproduceSheep = 4;
     }
 
     public static int getSizeHorizontal() {
@@ -519,6 +562,66 @@ public class PropertiesIsland {
         return cntPlants;
     }
 
+    public static int getMaxPopulationToReproduceBear() {
+        return maxPopulationToReproduceBear + 1;
+    }
+
+    public static int getMaxPopulationToReproduceBoa() {
+        return maxPopulationToReproduceBoa + 1;
+    }
+
+    public static int getMaxPopulationToReproduceEagle() {
+        return maxPopulationToReproduceEagle + 1;
+    }
+
+    public static int getMaxPopulationToReproduceFox() {
+        return maxPopulationToReproduceFox + 1;
+    }
+
+    public static int getMaxPopulationToReproduceWolf() {
+        return maxPopulationToReproduceWolf + 1;
+    }
+
+    public static int getMaxPopulationToReproduceBoar() {
+        return maxPopulationToReproduceBoar + 1;
+    }
+
+    public static int getMaxPopulationToReproduceBuffalo() {
+        return maxPopulationToReproduceBuffalo + 1;
+    }
+
+    public static int getMaxPopulationToReproduceCaterpillar() {
+        return maxPopulationToReproduceCaterpillar + 1;
+    }
+
+    public static int getMaxPopulationToReproduceDeer() {
+        return maxPopulationToReproduceDeer + 1;
+    }
+
+    public static int getMaxPopulationToReproduceDuck() {
+        return maxPopulationToReproduceDuck + 1;
+    }
+
+    public static int getMaxPopulationToReproduceGoat() {
+        return maxPopulationToReproduceGoat + 1;
+    }
+
+    public static int getMaxPopulationToReproduceHorse() {
+        return maxPopulationToReproduceHorse + 1;
+    }
+
+    public static int getMaxPopulationToReproduceMouse() {
+        return maxPopulationToReproduceMouse + 1;
+    }
+
+    public static int getMaxPopulationToReproduceRabbit() {
+        return maxPopulationToReproduceRabbit + 1;
+    }
+
+    public static int getMaxPopulationToReproduceSheep() {
+        return maxPopulationToReproduceSheep + 1;
+    }
+
     public static int getDietByAnimal(String hunter, String prey) {
         if (hunter.equals(prey))
             return 0;
@@ -541,33 +644,6 @@ public class PropertiesIsland {
                 case "sheep" -> sheep.get(prey);
                 default -> 0;
             };
-        }
-    }
-
-    public static void main(String[] args) {
-//        String[] species = "wolf/boa/fox/bear/eagle/horse/deer/rabbit/mouse/goat/sheep/boar/buffalo/duck/caterpillar/plant".split("/");
-//        String[] wolfList = "0/0/0/0/0/10/15/60/80/60/70/15/10/40/0/0".split("/");
-//        String[] sheepList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-//        String[] boaList = "0/0/15/0/0/0/0/20/40/0/0/0/0/10/0/0".split("/");
-//        String[] foxList = "0/0/0/0/0/0/0/70/90/0/0/0/0/60/40/0".split("/");
-//        String[] bearList = "0/80/0/0/0/40/80/80/90/70/70/50/20/10/0/0".split("/");
-//        String[] eagleList = "0/0/10/0/0/0/0/90/90/0/0/0/0/80/0/0".split("/");
-//        String[] horseList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-//        String[] deerList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-//        String[] rabbitList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-//        String[] mouseList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-//        String[] goatList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-//        String[] boarList = "0/0/0/0/0/0/0/0/50/0/0/0/0/0/90/100".split("/");
-//        String[] buffaloList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-//        String[] duckList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/90/100".split("/");
-//        String[] caterpillarList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-//        for (int i = 0; i < species.length; i++) {
-//            System.out.println(species.length + " | " + caterpillarList.length + " " + boaList.length);
-//            System.out.println(species[i] + " " + caterpillarList[i] + " | " + boaList[i]);
-//        }
-
-        for (Map.Entry<String, Integer> pair : caterpillar.entrySet()) {
-            System.out.println(pair.getKey() + " | " + pair.getValue());
         }
     }
 }

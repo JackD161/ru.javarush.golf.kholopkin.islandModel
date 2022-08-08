@@ -378,6 +378,9 @@ public class Location {
                         Animal parent2 = (Animal) item2.getValue();
                         if (parent2.isReadyToReproduce()) {
                             int population = ThreadLocalRandom.current().nextInt(parent1.getMaxPopulationToReproduce());
+                            if (checkPopulation(parent1) < population) {
+                                population = checkPopulation(parent1);
+                            }
                             if (parent1.reproduce(population, parent2)) {
                                 while (population > 0) {
                                     childs.add(parent1);
@@ -392,6 +395,41 @@ public class Location {
         for (Animal animal : childs) {
             birthAnimalOnLocation(animal);
         }
+    }
+
+    private int checkPopulation(Animal animal) {
+        if (animal instanceof Bear)
+            return PropertiesIsland.getMaxCntBear() - cntBears;
+        else if (animal instanceof Boa)
+            return PropertiesIsland.getMaxCntBoa() - cntBoas;
+        else if (animal instanceof Eagle)
+            return PropertiesIsland.getMaxCntEagle() - cntEagles;
+        else if (animal instanceof Fox)
+            return PropertiesIsland.getMaxCntFox() - cntFoxs;
+        else if (animal instanceof Wolf)
+            return PropertiesIsland.getMaxCntWolf() - cntWolf;
+        else if (animal instanceof Boar)
+            return PropertiesIsland.getMaxCntBoar() - cntBoars;
+        else if (animal instanceof Buffalo)
+            return PropertiesIsland.getMaxCntBuffalo() - cntBuffalos;
+        else if (animal instanceof Caterpillar)
+            return PropertiesIsland.getMaxCntCaterpillar() - cntCaterpilars;
+        else if (animal instanceof Deer)
+            return PropertiesIsland.getMaxCntDeer() - cntDeers;
+        else if (animal instanceof Duck)
+            return PropertiesIsland.getMaxCntDuck() - cntDucks;
+        else if (animal instanceof Goat)
+            return PropertiesIsland.getMaxCntGoat() - cntGoats;
+        else if (animal instanceof Horse)
+            return PropertiesIsland.getMaxCntHorse() - cntHorses;
+        else if (animal instanceof Mouse)
+            return PropertiesIsland.getMaxCntMouse() - cntMouses;
+        else if (animal instanceof Rabbit)
+            return PropertiesIsland.getMaxCntRabbit() - cntRabbits;
+        else if (animal instanceof Sheep)
+            return PropertiesIsland.getMaxCntSheep() - cntSheep;
+        else
+            return 0;
     }
 
     private void birthAnimalOnLocation(Animal animal) {

@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Boar extends Herbivorous {
     public Boar() {
         weight = ThreadLocalRandom.current().nextInt(PropertiesIsland.getWeightBoar());
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceBoar();
     }
     public static String icon = PropertiesIsland.getBoarIcon();
 

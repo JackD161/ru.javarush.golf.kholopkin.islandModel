@@ -10,6 +10,7 @@ public class Duck extends Herbivorous implements CanFly {
 
     public Duck() {
         weight = ThreadLocalRandom.current().nextInt(2) + ThreadLocalRandom.current().nextFloat();
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceDuck();
     }
 
     private float weight;

@@ -8,6 +8,7 @@ public class Rabbit extends Herbivorous{
     public static String icon = PropertiesIsland.getRabbitIcon();
     public Rabbit() {
         weight = ThreadLocalRandom.current().nextInt(PropertiesIsland.getWeightRabbit());
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceRabbit();
     }
 
     @Override

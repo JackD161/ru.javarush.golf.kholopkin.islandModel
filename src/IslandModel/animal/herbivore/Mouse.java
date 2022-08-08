@@ -8,6 +8,7 @@ public class Mouse extends Herbivorous{
     public static String icon = PropertiesIsland.getMouseIcon();
     public Mouse() {
         weight = ThreadLocalRandom.current().nextInt(2) + ThreadLocalRandom.current().nextFloat();
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceMouse();
     }
     private float weight;
 

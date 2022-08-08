@@ -1,5 +1,7 @@
 package IslandModel.animal;
 
+import IslandModel.utils.LogToFile;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 // базовый класс животных
@@ -13,8 +15,9 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     protected boolean hungry;
     // пол животного
     protected Sex sex;
-    private int maxPopulationToReproduce = 6;
+    protected int maxPopulationToReproduce;
     protected boolean readyToReproduce;
+//    LogToFile logger;
 
     public boolean isReadyToReproduce() {
         return readyToReproduce;
@@ -30,6 +33,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         health = 10;
         isAlive = true;
         readyToReproduce = true;
+ //       logger = new LogToFile();
     }
 
     @Override
@@ -37,12 +41,12 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         satiety += howMany;
         if (satiety >= needFood)
             satiety = needFood;
-        System.out.println(this.getName() + " сожрал " + animal);
+ //       logger.log(this.getName() + " сожрал " + animal);
     }
 
     @Override
     public void move(Direction direction) {
-        System.out.println(this.name + " совершил движение " + direction.toString());
+  //      logger.log(this.name + " совершил движение " + direction.toString());
     }
 
     @Override
@@ -50,7 +54,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         if (animal.getClass().equals(this.getClass())) {
             if (this.sex != animal.sex) {
                 readyToReproduce = false;
-                System.out.println(this.name + " спирился с " + animal.getName() + " и произвел " + howMany + " потомства");
+ //               logger.log(this.name + " спирился с " + animal.getName() + " и произвел " + howMany + " потомства");
                 return true;
             }
         }

@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Eagle extends Carnivore implements CanFly {
     public Eagle() {
         weight = ThreadLocalRandom.current().nextInt(PropertiesIsland.getWeightEagle());
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceEagle();
     }
     public static String icon = PropertiesIsland.getEagleIcon();
     @Override

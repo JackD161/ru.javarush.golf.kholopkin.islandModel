@@ -8,6 +8,7 @@ public class Boa extends Carnivore{
 
     public Boa() {
         weight = ThreadLocalRandom.current().nextInt(PropertiesIsland.getWeightBoa());
+        maxPopulationToReproduce = PropertiesIsland.getMaxPopulationToReproduceBoa();
     }
     public static String icon = PropertiesIsland.getBoaIcon();
     @Override
