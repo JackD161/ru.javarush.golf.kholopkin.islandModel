@@ -1,5 +1,5 @@
 package IslandModel.animal;
 
 public interface Reproduce {
-    void reproduce(Animal animal);
+    boolean reproduce(int howMany, Animal animal);
 }

@@ -3,6 +3,7 @@ package IslandModel.island;
 import IslandModel.animal.Animal;
 import IslandModel.animal.BaseObject;
 import IslandModel.animal.CanEat;
+import IslandModel.animal.Reproduce;
 import IslandModel.animal.carnivore.*;
 import IslandModel.animal.herbivore.*;
 import IslandModel.plant.Plant;
@@ -343,28 +344,88 @@ public class Location {
     }
 
     public void eatAnimals() {
-        Set<String> eatedAmimals = new HashSet<>();
         for (Map.Entry<String, BaseObject> item : items.entrySet()) {
             if (item.getValue() instanceof CanEat) {
                 Animal hunter = (Animal) item.getValue();
-                for (Map.Entry<String, BaseObject> prey : items.entrySet()) {
-                    String species = hunter.getSpecies();
-                    String spec2 = prey.getValue().getSpecies();
-                    int diet = PropertiesIsland.getDietByAnimal(species, spec2);
-                    int random = ThreadLocalRandom.current().nextInt(101);
-                    if (diet >= random) {
-                        hunter.eat(prey.getValue().getFood(), prey.getValue().getSpecies());
-                        eatedAmimals.add(prey.getKey());
-                        break;
+                if (hunter.isHungry()) {
+                    for (Map.Entry<String, BaseObject> prey : items.entrySet()) {
+                        BaseObject food = prey.getValue();
+                        if (food.isAlive()) {
+                            if (PropertiesIsland.getDietByAnimal(hunter.getSpecies(), food.getSpecies()) >= ThreadLocalRandom.current().nextInt(1, 101)) {
+                                hunter.eat(prey.getValue().getFood(), prey.getValue().getName());
+                                prey.getValue().die();
+                                break;
+                            }
+                        }
                     }
                 }
             }
         }
-        for (String away : eatedAmimals) {
-            comeOrAway(items.get(away), false);
+        Iterator<Map.Entry<String, BaseObject>> iterator = items.entrySet().iterator();
+        while (iterator.hasNext()) {
+            BaseObject object = iterator.next().getValue();
+            if (!object.isAlive())
+                iterator.remove();
+        }
+    }
+    public void reproduceAnimals() {
+        ArrayList<Animal> childs = new ArrayList<>();
+        for (Map.Entry<String, BaseObject> item : items.entrySet()) {
+            if (item.getValue() instanceof Reproduce) {
+                Animal parent1 = (Animal) item.getValue();
+                if (parent1.isReadyToReproduce()) {
+                    for (Map.Entry<String, BaseObject> item2 : items.entrySet()) {
+                        Animal parent2 = (Animal) item2.getValue();
+                        if (parent2.isReadyToReproduce()) {
+                            int population = ThreadLocalRandom.current().nextInt(parent1.getMaxPopulationToReproduce());
+                            if (parent1.reproduce(population, parent2)) {
+                                while (population > 0) {
+                                    childs.add(parent1);
+                                    population--;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (Animal animal : childs) {
+            birthAnimalOnLocation(animal);
         }
     }
 
+    private void birthAnimalOnLocation(Animal animal) {
+        if (animal instanceof Bear)
+            comeOrAway(new Bear(), true);
+        else if (animal instanceof Boa)
+            comeOrAway(new Boa(), true);
+        else if (animal instanceof Boar)
+            comeOrAway(new Boar(), true);
+        else if (animal instanceof Eagle)
+            comeOrAway(new Eagle(), true);
+        else if (animal instanceof Fox)
+            comeOrAway(new Fox(), true);
+        else if (animal instanceof Wolf)
+            comeOrAway(new Wolf(), true);
+        else if (animal instanceof Buffalo)
+            comeOrAway(new Buffalo(), true);
+        else if (animal instanceof Caterpillar)
+            comeOrAway(new Caterpillar(), true);
+        else if (animal instanceof Deer)
+            comeOrAway(new Deer(), true);
+        else if (animal instanceof Duck)
+            comeOrAway(new Duck(), true);
+        else if (animal instanceof Goat)
+            comeOrAway(new Goat(), true);
+        else if (animal instanceof Horse)
+            comeOrAway(new Horse(), true);
+        else if (animal instanceof Mouse)
+            comeOrAway(new Mouse(), true);
+        else if (animal instanceof Rabbit)
+            comeOrAway(new Rabbit(), true);
+        else if (animal instanceof Sheep)
+            comeOrAway(new Sheep(), true);
+    }
     // копушать травку
     private int eatGrass(int howMany) {
         if (howMany > cntPlants) {
@@ -400,12 +461,6 @@ public class Location {
             plant--;
         }
     }
-
-    public void reproduceAnimals() {
-        Iterator<Map.Entry<String, BaseObject>> iterator = items.entrySet().iterator();
-
-    }
-
 
     @Override
     public String toString() {

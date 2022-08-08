@@ -68,12 +68,22 @@ public class Island {
 
                 }
             }
+            Animal animal = (Animal) object;
+            animal.move(direction);
         }
 
     public void eatAnimals() {
         for (int x = 0; x < locations.length; x++) {
             for (int y = 0; y < locations[0].length; y++) {
                 locations[x][y].eatAnimals();
+            }
+        }
+    }
+
+    public void reproduceAnimals() {
+        for (int x = 0; x < locations.length; x++) {
+            for (int y = 0; y < locations[0].length; y++) {
+                locations[x][y].reproduceAnimals();
             }
         }
     }
@@ -173,6 +183,8 @@ public class Island {
         System.out.println("пожрали животные и отрисовали остров");
         island.eatAnimals();
         island.print();
+        System.out.println("Животные размножаются и отрисовываем остров");
+        island.reproduceAnimals();
     }
 
 }

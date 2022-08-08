@@ -11,6 +11,7 @@ public abstract class BaseObject {
     protected int weight;
     protected static int INDEXanimal = 0;
     protected String name;
+    protected boolean isAlive;
 
     public abstract String getSpecies();
 
@@ -20,8 +21,17 @@ public abstract class BaseObject {
 
     public BaseObject() {
         name = getSpecies() + ++INDEXanimal;
+        isAlive = true;
     }
 
+    public void die() {
+        isAlive = false;
+        System.out.println(getName() + " сдох");
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
 
     public int getFood() {
         return (int) weight / 3;

@@ -280,7 +280,7 @@ public class PropertiesIsland {
         weightDuck = 1f;
         weightCaterpillar = 0.01f;
         weightPlant = 1;
-        String[] species = "wolf/boa/fox/bear/eagle/horse/deer/rabbit/mouse/goat/sheep/boar/buffalo/duck/caterpillar/plant".split("/");
+        String[] species = "wolf boa fox bear eagle horse deer rabbit mouse goat sheep boar buffalo duck caterpillar plant".split(" ");
         String[] wolfList = "0/0/0/0/0/10/15/60/80/60/70/15/10/40/0/0".split("/");
         String[] boaList = "0/0/15/0/0/0/0/20/40/0/0/0/0/0/10/0/0".split("/");
         String[] foxList = "0/0/0/0/0/0/0/70/90/0/0/0/0/60/40/0".split("/");
@@ -292,7 +292,7 @@ public class PropertiesIsland {
         String[] mouseList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
         String[] goatList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
         String[] sheepList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        String[] boarList = "0/0/0/0/0/0/0/0/0/50/0/0/0/0/0/90/100".split("/");
+        String[] boarList = "0/0/0/0/0/0/0/0/50/0/0/0/0/0/90/100".split("/");
         String[] buffaloList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
         String[] duckList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/90/100".split("/");
         String[] caterpillarList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
@@ -545,29 +545,29 @@ public class PropertiesIsland {
     }
 
     public static void main(String[] args) {
-        String[] species = "wolf/boa/fox/bear/eagle/horse/deer/rabbit/mouse/goat/sheep/boar/buffalo/duck/caterpillar/plant".split("/");
-        String[] wolfList = "0/0/0/0/0/10/15/60/80/60/70/15/10/40/0/0".split("/");
-        String[] sheepList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        String[] boaList = "0/0/15/0/0/0/0/20/40/0/0/0/0/0/10/0/0".split("/");
-        String[] foxList = "0/0/0/0/0/0/0/70/90/0/0/0/0/60/40/0".split("/");
-        String[] bearList = "0/80/0/0/0/40/80/80/90/70/70/50/20/10/0/0".split("/");
-        String[] eagleList = "0/0/10/0/0/0/0/90/90/0/0/0/0/80/0/0".split("/");
-        String[] horseList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        String[] deerList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        String[] rabbitList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        String[] mouseList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        String[] goatList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        String[] boarList = "0/0/0/0/0/0/0/0/0/50/0/0/0/0/0/90/100".split("/");
-        String[] buffaloList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        String[] duckList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/90/100".split("/");
-        String[] caterpillarList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
-        for (int i = 0; i < species.length; i++) {
-            System.out.println(species.length + " | " + caterpillarList.length + " " + boaList.length);
-            System.out.println(species[i] + " " + caterpillarList[i] + " | " + boaList[i]);
-        }
-
-//        for (Map.Entry<String, Integer> pair : caterpillar.entrySet()) {
-//            System.out.println(pair.getKey() + " | " + pair.getValue());
+//        String[] species = "wolf/boa/fox/bear/eagle/horse/deer/rabbit/mouse/goat/sheep/boar/buffalo/duck/caterpillar/plant".split("/");
+//        String[] wolfList = "0/0/0/0/0/10/15/60/80/60/70/15/10/40/0/0".split("/");
+//        String[] sheepList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
+//        String[] boaList = "0/0/15/0/0/0/0/20/40/0/0/0/0/10/0/0".split("/");
+//        String[] foxList = "0/0/0/0/0/0/0/70/90/0/0/0/0/60/40/0".split("/");
+//        String[] bearList = "0/80/0/0/0/40/80/80/90/70/70/50/20/10/0/0".split("/");
+//        String[] eagleList = "0/0/10/0/0/0/0/90/90/0/0/0/0/80/0/0".split("/");
+//        String[] horseList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
+//        String[] deerList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
+//        String[] rabbitList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
+//        String[] mouseList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
+//        String[] goatList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
+//        String[] boarList = "0/0/0/0/0/0/0/0/50/0/0/0/0/0/90/100".split("/");
+//        String[] buffaloList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
+//        String[] duckList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/90/100".split("/");
+//        String[] caterpillarList = "0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/100".split("/");
+//        for (int i = 0; i < species.length; i++) {
+//            System.out.println(species.length + " | " + caterpillarList.length + " " + boaList.length);
+//            System.out.println(species[i] + " " + caterpillarList[i] + " | " + boaList[i]);
 //        }
+
+        for (Map.Entry<String, Integer> pair : caterpillar.entrySet()) {
+            System.out.println(pair.getKey() + " | " + pair.getValue());
+        }
     }
 }

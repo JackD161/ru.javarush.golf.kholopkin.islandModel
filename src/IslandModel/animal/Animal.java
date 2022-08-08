@@ -1,6 +1,5 @@
 package IslandModel.animal;
 
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 // базовый класс животных
@@ -10,43 +9,54 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
     protected int needFood;
     // количество съеденной еды
     protected int satiety;
-    // приздак голода
+    // признак голода
     protected boolean hungry;
     // пол животного
     protected Sex sex;
-    // уникальный идентификатор животного
+    private int maxPopulationToReproduce = 6;
+    protected boolean readyToReproduce;
 
+    public boolean isReadyToReproduce() {
+        return readyToReproduce;
+    }
 
+    public int getMaxPopulationToReproduce() {
+        return maxPopulationToReproduce;
+    }
 
     public Animal() {
         sex = 1 == ThreadLocalRandom.current().nextInt(2) ? Sex.FAMILY:Sex.MALE;
         hungry = satiety <= (needFood / 2); // если желудок полупустой - возникает чувство голода
         health = 10;
+        isAlive = true;
+        readyToReproduce = true;
     }
-
-    /*
-    Общий принцип поведения при взаимоотношениях животных
-    1. Если ты больше другого животного - нужно попытаться съесть его
-    2. Если ты меньше другого животного - нужно попытыться убежать от него
-    3. Если вы равные и представители одного вида - попытаться спариться для размножения, если аппонент не против - то всё ОК
-     */
 
     @Override
     public void eat(int howMany, String animal) {
         satiety += howMany;
+        if (satiety >= needFood)
+            satiety = needFood;
         System.out.println(this.getName() + " сожрал " + animal);
     }
 
     @Override
     public void move(Direction direction) {
+        System.out.println(this.name + " совершил движение " + direction.toString());
     }
 
     @Override
-    public void reproduce(Animal animal) {
-        if(animal.sex != this.sex)
-        {
-
+    public boolean reproduce(int howMany, Animal animal) {
+        if (animal.getClass().equals(this.getClass())) {
+            if (this.sex != animal.sex) {
+                readyToReproduce = false;
+                System.out.println(this.name + " спирился с " + animal.getName() + " и произвел " + howMany + " потомства");
+                return true;
+            }
         }
+        else
+            return false;
+        return false;
     }
 
     public boolean isHungry() {
