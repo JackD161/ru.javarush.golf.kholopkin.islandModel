@@ -88,12 +88,14 @@ public class Location {
                 items.put((object).getName(), object);
             else if (object instanceof Plant)
                 items.put((object).getName(), object);
+//            System.out.println("На локацию пришел " + object.getName());
         }
         else {
             if (object instanceof Animal)
                 items.remove((object).getName());
             else if (object instanceof Plant)
                 items.remove((object).getName());
+//            System.out.println("С локации ушел " + object.getName());
         }
     }
 
@@ -361,20 +363,19 @@ public class Location {
                 }
             }
         }
-        Iterator<Map.Entry<String, BaseObject>> iterator = items.entrySet().iterator();
-        while (iterator.hasNext()) {
-            BaseObject object = iterator.next().getValue();
-            if (!object.isAlive())
-                iterator.remove();
+        Map<String, BaseObject> copyItems = new HashMap<>(items);
+        for (Map.Entry<String, BaseObject> object : copyItems.entrySet()) {
+            if (!object.getValue().isAlive())
+                comeOrAway(object.getValue(), false);
         }
     }
     public void reproduceAnimals() {
-        ArrayList<Animal> childs = new ArrayList<>();
-        for (Map.Entry<String, BaseObject> item : items.entrySet()) {
+        Map<String, BaseObject> copyItems = new HashMap<>(items);
+        for (Map.Entry<String, BaseObject> item : copyItems.entrySet()) {
             if (item.getValue() instanceof Reproduce) {
                 Animal parent1 = (Animal) item.getValue();
                 if (parent1.isReadyToReproduce()) {
-                    for (Map.Entry<String, BaseObject> item2 : items.entrySet()) {
+                    for (Map.Entry<String, BaseObject> item2 : copyItems.entrySet()) {
                         Animal parent2 = (Animal) item2.getValue();
                         if (parent2.isReadyToReproduce()) {
                             int population = ThreadLocalRandom.current().nextInt(parent1.getMaxPopulationToReproduce());
@@ -383,7 +384,7 @@ public class Location {
                             }
                             if (parent1.reproduce(population, parent2)) {
                                 while (population > 0) {
-                                    childs.add(parent1);
+                                    birthAnimalOnLocation(parent1);
                                     population--;
                                 }
                             }
@@ -392,9 +393,7 @@ public class Location {
                 }
             }
         }
-        for (Animal animal : childs) {
-            birthAnimalOnLocation(animal);
-        }
+        plantGrass();
     }
 
     private int checkPopulation(Animal animal) {
@@ -464,38 +463,20 @@ public class Location {
         else if (animal instanceof Sheep)
             comeOrAway(new Sheep(), true);
     }
-    // копушать травку
-    private int eatGrass(int howMany) {
-        if (howMany > cntPlants) {
-            howMany = cntPlants;
-            cntPlants = 0;
-            return howMany;
-        }
-        else {
-            int cnt = howMany;
-            Iterator<Map.Entry<String, BaseObject>> iterator = items.entrySet().iterator();
-            while (cnt > 0) {
-                BaseObject object = iterator.next().getValue();
-                if (object instanceof Plant)
-                    iterator.remove();
-                cnt--;
-            }
-            return howMany;
-        }
-    }
 
     // посадить травку
     public void plantGrass() {
         int plant = 0;
-        if (cntPlants > 3) {
-            plant = ThreadLocalRandom.current().nextInt(cntPlants / 3);
+        if (cntPlants > 50) {
+            plant = ThreadLocalRandom.current().nextInt(PropertiesIsland.getCntPlants() / 2);
         }
         else {
-            plant = ThreadLocalRandom.current().nextInt(cntPlants + 2);
+            plant = ThreadLocalRandom.current().nextInt(PropertiesIsland.getCntPlants());
         }
+        if (plant > PropertiesIsland.getCntPlants())
+            plant = PropertiesIsland.getCntPlants();
         while(plant > 0) {
-            Plant plant1 = new Plant();
-            items.put(plant1.getName(), plant1);
+            comeOrAway(new Plant(), true);
             plant--;
         }
     }

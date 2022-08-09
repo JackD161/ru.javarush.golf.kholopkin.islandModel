@@ -12,4 +12,9 @@ public class Plant extends BaseObject {
     public String getSpecies() {
         return "plant";
     }
+
+    @Override
+    public int getFood() {
+        return 1;
+    }
 }

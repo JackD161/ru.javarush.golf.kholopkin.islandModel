@@ -33,6 +33,6 @@ public abstract class BaseObject {
     }
 
     public int getFood() {
-        return (int) weight / 3;
+        return weight / 3;
     }
 }

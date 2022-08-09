@@ -41,7 +41,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         satiety += howMany;
         if (satiety >= needFood)
             satiety = needFood;
- //       logger.log(this.getName() + " сожрал " + animal);
+//        System.out.println(this.getName() + " сожрал " + animal);
     }
 
     @Override
