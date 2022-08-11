@@ -1,7 +1,5 @@
 package IslandModel.animal;
 
-import IslandModel.utils.LogToFile;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 // базовый класс животных
@@ -33,7 +31,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         health = 10;
         isAlive = true;
         readyToReproduce = true;
- //       logger = new LogToFile();
+        System.out.println(this.getName() + " родился");
     }
 
     @Override
@@ -41,12 +39,27 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         satiety += howMany;
         if (satiety >= needFood)
             satiety = needFood;
-//        System.out.println(this.getName() + " сожрал " + animal);
+        System.out.println(this.getName() + " сожрал " + animal);
     }
 
     @Override
     public void move(Direction direction) {
-  //      logger.log(this.name + " совершил движение " + direction.toString());
+        if (direction == Direction.HOLD)
+            System.out.println(this.getName() + " остался стоять на месте");
+        else
+            System.out.println(this.name + " совершил движение " + direction.toString());
+    }
+
+    public void lostEnergy() {
+        if (satiety < needFood / 3) {
+            satiety -= 2;
+        }
+        else if (satiety < 1) {
+            health--;
+        }
+        else {
+            satiety--;
+        }
     }
 
     @Override
@@ -54,7 +67,8 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         if (animal.getClass().equals(this.getClass())) {
             if (this.sex != animal.sex) {
                 readyToReproduce = false;
- //               logger.log(this.name + " спирился с " + animal.getName() + " и произвел " + howMany + " потомства");
+                String mess = howMany < 1 ? " и не произвел потомства":" и произвел " + howMany + " потомства";
+                System.out.println((this.name + " спарился с " + animal.getName() + mess));
                 return true;
             }
         }
@@ -65,6 +79,10 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
 
     public boolean isHungry() {
         return hungry;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
 

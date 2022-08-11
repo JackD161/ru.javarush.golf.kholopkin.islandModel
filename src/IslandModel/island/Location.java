@@ -1,9 +1,6 @@
 package IslandModel.island;
 
-import IslandModel.animal.Animal;
-import IslandModel.animal.BaseObject;
-import IslandModel.animal.CanEat;
-import IslandModel.animal.Reproduce;
+import IslandModel.animal.*;
 import IslandModel.animal.carnivore.*;
 import IslandModel.animal.herbivore.*;
 import IslandModel.plant.Plant;
@@ -11,6 +8,8 @@ import IslandModel.utils.Coordinates;
 import IslandModel.utils.PropertiesIsland;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Location {
     private final Coordinates coordinates;
@@ -21,10 +20,10 @@ public class Location {
     private int cntBoas;
     private int cntBoars;
     private int cntEagles;
-    private int cntFoxs;
-    private int cntBuffalos;
-    private int cntCaterpilars;
-    private int cntDeers;
+    private int cntFoxes;
+    private int cntBuffaloes;
+    private int cntCaterpillars;
+    private int cntDeer;
     private int cntDucks;
     private int cntGoats;
     private int cntHorses;
@@ -33,9 +32,7 @@ public class Location {
     // Списки где будут хранитсья находящиеся на локации сущности
     private final Map<String, BaseObject> items;
 
-    public int getCntPlants() {
-        return cntPlants;
-    }
+    private final Lock lock = new ReentrantLock(true);
 
     public Set<String> getItems() {
         return items.keySet();
@@ -60,15 +57,15 @@ public class Location {
         else if (object instanceof Eagle)
             cntEagles += value;
         else if (object instanceof Fox)
-            cntFoxs += value;
+            cntFoxes += value;
         else if (object instanceof Wolf)
             cntWolf += value;
         else if (object instanceof Buffalo)
-            cntBuffalos += value;
+            cntBuffaloes += value;
         else if (object instanceof Caterpillar)
-            cntCaterpilars += value;
+            cntCaterpillars += value;
         else if (object instanceof Deer)
-            cntDeers += value;
+            cntDeer += value;
         else if (object instanceof Duck)
             cntDucks += value;
         else if (object instanceof Goat)
@@ -102,7 +99,7 @@ public class Location {
     public Location(int x, int y) {
         coordinates = new Coordinates(x, y);
         items = new HashMap<>();
-        initizlileLocation();
+        initializeLocation();
     }
 
     // метод возвращает координаты локации
@@ -134,20 +131,20 @@ public class Location {
         return cntEagles;
     }
 
-    public int getCntFoxs() {
-        return cntFoxs;
+    public int getCntFoxes() {
+        return cntFoxes;
     }
 
-    public int getCntBuffalos() {
-        return cntBuffalos;
+    public int getCntBuffaloes() {
+        return cntBuffaloes;
     }
 
-    public int getCntCaterpilars() {
-        return cntCaterpilars;
+    public int getCntCaterpillars() {
+        return cntCaterpillars;
     }
 
-    public int getCntDeers() {
-        return cntDeers;
+    public int getCntDeer() {
+        return cntDeer;
     }
 
     public int getCntDucks() {
@@ -168,6 +165,10 @@ public class Location {
 
     public int getCntRabbits() {
         return cntRabbits;
+    }
+
+    public Lock getLock() {
+        return lock;
     }
 
     // блок инициализации зверей на локации
@@ -216,7 +217,7 @@ public class Location {
             Buffalo animal = new Buffalo();
             items.put(animal.getName(), animal);
             rnd--;
-            cntBuffalos++;
+            cntBuffaloes++;
         }
     }
     private void initCaterpillars(int maxCnt) {
@@ -225,7 +226,7 @@ public class Location {
             Caterpillar animal = new Caterpillar();
             items.put(animal.getName(), animal);
             rnd--;
-            cntCaterpilars++;
+            cntCaterpillars++;
         }
     }
 
@@ -235,7 +236,7 @@ public class Location {
             Deer animal = new Deer();
             items.put(animal.getName(), animal);
             rnd--;
-            cntDeers++;
+            cntDeer++;
         }
     }
 
@@ -294,7 +295,7 @@ public class Location {
             Fox animal = new Fox();
             items.put(animal.getName(), animal);
             rnd--;
-            cntFoxs++;
+            cntFoxes++;
         }
     }
     private void initEagles(int maxCnt) {
@@ -326,7 +327,7 @@ public class Location {
         }
     }
 
-    private void initizlileLocation() {
+    private void initializeLocation() {
         initWolf(PropertiesIsland.getMaxCntWolf());
         initSheep(PropertiesIsland.getMaxCntSheep());
         initBears(PropertiesIsland.getMaxCntBear());
@@ -345,7 +346,7 @@ public class Location {
         initPlants(PropertiesIsland.getCntPlants());
     }
 
-    public void eatAnimals() {
+    public boolean eatAnimals() {
         for (Map.Entry<String, BaseObject> item : items.entrySet()) {
             if (item.getValue() instanceof CanEat) {
                 Animal hunter = (Animal) item.getValue();
@@ -368,8 +369,9 @@ public class Location {
             if (!object.getValue().isAlive())
                 comeOrAway(object.getValue(), false);
         }
+        return true;
     }
-    public void reproduceAnimals() {
+    public boolean reproduceAnimals() {
         Map<String, BaseObject> copyItems = new HashMap<>(items);
         for (Map.Entry<String, BaseObject> item : copyItems.entrySet()) {
             if (item.getValue() instanceof Reproduce) {
@@ -384,7 +386,7 @@ public class Location {
                             }
                             if (parent1.reproduce(population, parent2)) {
                                 while (population > 0) {
-                                    birthAnimalOnLocation(parent1);
+                                    birthOrDieAnimalOnLocation(parent1, true);
                                     population--;
                                 }
                             }
@@ -393,7 +395,7 @@ public class Location {
                 }
             }
         }
-        plantGrass();
+        return true;
     }
 
     private int checkPopulation(Animal animal) {
@@ -404,17 +406,17 @@ public class Location {
         else if (animal instanceof Eagle)
             return PropertiesIsland.getMaxCntEagle() - cntEagles;
         else if (animal instanceof Fox)
-            return PropertiesIsland.getMaxCntFox() - cntFoxs;
+            return PropertiesIsland.getMaxCntFox() - cntFoxes;
         else if (animal instanceof Wolf)
             return PropertiesIsland.getMaxCntWolf() - cntWolf;
         else if (animal instanceof Boar)
             return PropertiesIsland.getMaxCntBoar() - cntBoars;
         else if (animal instanceof Buffalo)
-            return PropertiesIsland.getMaxCntBuffalo() - cntBuffalos;
+            return PropertiesIsland.getMaxCntBuffalo() - cntBuffaloes;
         else if (animal instanceof Caterpillar)
-            return PropertiesIsland.getMaxCntCaterpillar() - cntCaterpilars;
+            return PropertiesIsland.getMaxCntCaterpillar() - cntCaterpillars;
         else if (animal instanceof Deer)
-            return PropertiesIsland.getMaxCntDeer() - cntDeers;
+            return PropertiesIsland.getMaxCntDeer() - cntDeer;
         else if (animal instanceof Duck)
             return PropertiesIsland.getMaxCntDuck() - cntDucks;
         else if (animal instanceof Goat)
@@ -431,37 +433,165 @@ public class Location {
             return 0;
     }
 
-    private void birthAnimalOnLocation(Animal animal) {
+    private void birthOrDieAnimalOnLocation(Animal animal, boolean isAlive) {
         if (animal instanceof Bear)
-            comeOrAway(new Bear(), true);
+            comeOrAway(new Bear(), isAlive);
         else if (animal instanceof Boa)
-            comeOrAway(new Boa(), true);
+            comeOrAway(new Boa(), isAlive);
         else if (animal instanceof Boar)
-            comeOrAway(new Boar(), true);
+            comeOrAway(new Boar(), isAlive);
         else if (animal instanceof Eagle)
-            comeOrAway(new Eagle(), true);
+            comeOrAway(new Eagle(), isAlive);
         else if (animal instanceof Fox)
-            comeOrAway(new Fox(), true);
+            comeOrAway(new Fox(), isAlive);
         else if (animal instanceof Wolf)
-            comeOrAway(new Wolf(), true);
+            comeOrAway(new Wolf(), isAlive);
         else if (animal instanceof Buffalo)
-            comeOrAway(new Buffalo(), true);
+            comeOrAway(new Buffalo(), isAlive);
         else if (animal instanceof Caterpillar)
-            comeOrAway(new Caterpillar(), true);
+            comeOrAway(new Caterpillar(), isAlive);
         else if (animal instanceof Deer)
-            comeOrAway(new Deer(), true);
+            comeOrAway(new Deer(), isAlive);
         else if (animal instanceof Duck)
-            comeOrAway(new Duck(), true);
+            comeOrAway(new Duck(), isAlive);
         else if (animal instanceof Goat)
-            comeOrAway(new Goat(), true);
+            comeOrAway(new Goat(), isAlive);
         else if (animal instanceof Horse)
-            comeOrAway(new Horse(), true);
+            comeOrAway(new Horse(), isAlive);
         else if (animal instanceof Mouse)
-            comeOrAway(new Mouse(), true);
+            comeOrAway(new Mouse(), isAlive);
         else if (animal instanceof Rabbit)
-            comeOrAway(new Rabbit(), true);
+            comeOrAway(new Rabbit(), isAlive);
         else if (animal instanceof Sheep)
-            comeOrAway(new Sheep(), true);
+            comeOrAway(new Sheep(), isAlive);
+    }
+
+    public boolean lifeCycleAnimals() {
+        for (Map.Entry<String, BaseObject> item : items.entrySet()) {
+            Animal animal;
+            if (item.getValue() instanceof Animal) {
+                animal = (Animal) item.getValue();
+                animal.lostEnergy();
+                if (animal.getHealth() < 1) {
+                    comeOrAway(animal, false);
+                    animal.die();
+                }
+            }
+        }
+        return true;
+    }
+    public void moveAnimalsOnLocation(Island island, Location location) {
+        Set<String> items = new HashSet<>(location.getItems());
+        for (String item : items) {
+            if (location.getItemByKey(item) instanceof CanMove) {
+                List<Direction> generateDirections = searchingDirectionToMove(island, location, location.getItemByKey(item));
+                move(island, location, location.getItemByKey(item), generateDirections.get(ThreadLocalRandom.current().nextInt(generateDirections.size())));
+            }
+        }
+    }
+
+    private void move(Island island, Location location, BaseObject object, Direction direction) {
+        int x = location.getCoordinates().getX();
+        int y = location.getCoordinates().getY();
+        switch (direction) {
+            case UP -> {
+                island.getLocationByCoordinates(x, y).comeOrAway(object, false);
+                island.getLocationByCoordinates(x, y - 1).comeOrAway(object, true);
+            }
+            case DOWN -> {
+                island.getLocationByCoordinates(x, y).comeOrAway(object, false);
+                island.getLocationByCoordinates(x, y + 1).comeOrAway(object, true);
+            }
+            case LEFT -> {
+                island.getLocationByCoordinates(x, y).comeOrAway(object, false);
+                island.getLocationByCoordinates(x - 1, y).comeOrAway(object, true);
+            }
+            case RIGHT -> {
+                island.getLocationByCoordinates(x, y).comeOrAway(object, false);
+                island.getLocationByCoordinates(x + 1, y).comeOrAway(object, true);
+            }
+            case HOLD -> {
+
+            }
+        }
+        Animal animal = (Animal) object;
+        animal.move(direction);
+    }
+    private List<Direction> searchingDirectionToMove(Island island, Location location, BaseObject object) {
+        List<Direction> directions = new ArrayList<>();
+        directions.add(Direction.HOLD);
+        int x = location.getCoordinates().getX();
+        int y = location.getCoordinates().getY();
+        if (x > 0 && x < PropertiesIsland.getSizeHorizontal()) {
+            if (canMoveHere(object, island.getLocationByCoordinates(x - 1,y)))
+                directions.add(Direction.LEFT);
+        }
+        if (x >=0 && x < PropertiesIsland.getSizeHorizontal() - 1) {
+            if (canMoveHere(object, island.getLocationByCoordinates(x + 1, y)))
+                directions.add(Direction.RIGHT);
+        }
+        // система координат перевернута и начинается с левого верхнего угла,
+        // так что когда координата y увеличивается - это движение вниз, когда y уменьшается - вверх
+        if (y >= 0 && y < PropertiesIsland.getSizeVertical() - 1) {
+            if (canMoveHere(object, island.getLocationByCoordinates(x, y + 1)))
+                directions.add(Direction.DOWN);
+        }
+        if (y > 0 && y < PropertiesIsland.getSizeVertical()) {
+            if (canMoveHere(object, island.getLocationByCoordinates(x, y - 1)))
+                directions.add(Direction.UP);
+        }
+        return directions;
+    }
+
+    private boolean canMoveHere(BaseObject object, Location location) {
+        if (object instanceof Wolf) {
+            return location.getCntWolf() < PropertiesIsland.getMaxCntWolf();
+        }
+        else if (object instanceof Sheep) {
+            return location.getCntSheep() < PropertiesIsland.getMaxCntSheep();
+        }
+        else if (object instanceof Bear) {
+            return location.getCntBears() < PropertiesIsland.getMaxCntBear();
+        }
+        else if (object instanceof Boa) {
+            return location.getCntBoas() < PropertiesIsland.getMaxCntBoa();
+        }
+        else if (object instanceof Boar) {
+            return location.getCntBoars() < PropertiesIsland.getMaxCntBoar();
+        }
+        else if (object instanceof Eagle) {
+            return location.getCntEagles() < PropertiesIsland.getMaxCntEagle();
+        }
+        else if (object instanceof Fox) {
+            return location.getCntFoxes() < PropertiesIsland.getMaxCntFox();
+        }
+        else if (object instanceof Buffalo) {
+            return location.getCntBuffaloes() < PropertiesIsland.getMaxCntBuffalo();
+        }
+        else if (object instanceof Caterpillar) {
+            return location.getCntCaterpillars() < PropertiesIsland.getMaxCntCaterpillar();
+        }
+        else if (object instanceof Deer) {
+            return location.getCntDeer() < PropertiesIsland.getMaxCntDeer();
+        }
+        else if (object instanceof Duck) {
+            return location.getCntDucks() < PropertiesIsland.getMaxCntDuck();
+        }
+        else if (object instanceof Goat) {
+            return location.getCntGoats() < PropertiesIsland.getMaxCntGoat();
+        }
+        else if (object instanceof Horse) {
+            return location.getCntHorses() < PropertiesIsland.getMaxCntHorse();
+        }
+        else if (object instanceof Mouse) {
+            return location.getCntMouses() < PropertiesIsland.getMaxCntMouse();
+        }
+        else if (object instanceof Rabbit) {
+            return location.getCntRabbits() < PropertiesIsland.getMaxCntRabbit();
+        }
+        else {
+            return false;
+        }
     }
 
     // посадить травку
@@ -484,9 +614,9 @@ public class Location {
     @Override
     public String toString() {
         return "Локация х:" + coordinates.getX() + " y:" + coordinates.getY() +
-                "\n" + Wolf.icon + " " + cntWolf + " | " + Boa.icon + " " + cntBoas + " | " + Buffalo.icon + " " + cntBuffalos + " | " + Goat.icon + " " + cntGoats +
-                "\n" + Sheep.icon + " " + cntSheep + " | " + Boar.icon + " " + cntBoars + " | " + Caterpillar.icon + " " + cntCaterpilars + " | " + Horse.icon + " " + cntHorses +
-                "\n" + Plant.icon + " " + cntPlants + " | " + Eagle.icon + " " + cntEagles + " | " + Deer.icon + " " + cntDeers + " | " + Mouse.icon + " " + cntMouses +
-                "\n" + Bear.icon + " " + cntBears + " | " + Fox.icon + " " + cntFoxs + " | " + Duck.icon + " " + cntDucks + " | " + Rabbit.icon + " " + cntRabbits + "\n";
+                "\n" + Wolf.icon + " " + cntWolf + " | " + Boa.icon + " " + cntBoas + " | " + Buffalo.icon + " " + cntBuffaloes + " | " + Goat.icon + " " + cntGoats +
+                "\n" + Sheep.icon + " " + cntSheep + " | " + Boar.icon + " " + cntBoars + " | " + Caterpillar.icon + " " + cntCaterpillars + " | " + Horse.icon + " " + cntHorses +
+                "\n" + Plant.icon + " " + cntPlants + " | " + Eagle.icon + " " + cntEagles + " | " + Deer.icon + " " + cntDeer + " | " + Mouse.icon + " " + cntMouses +
+                "\n" + Bear.icon + " " + cntBears + " | " + Fox.icon + " " + cntFoxes + " | " + Duck.icon + " " + cntDucks + " | " + Rabbit.icon + " " + cntRabbits + "\n";
     }
 }
