@@ -87,4 +87,4 @@ ru.javarush.golf.ФИО.IslandModel
 
 
 
-
+https://github.com/Kenku193/ru.javarush.golf/tree/master/src/Module2/OverallResourceExample

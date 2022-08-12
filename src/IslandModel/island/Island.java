@@ -56,19 +56,19 @@ public class Island {
         }
     }
 
-//    public static void main(String[] args) {
-//        System.out.println("Создали остров и отрисовали остров");
-//        Island island = new Island();
-//        island.print();
-//        System.out.println("подвигали животных и отрисовали остров");
-//        island.moveAnimalsOnIsland();
-//        island.print();
-//        System.out.println("пожрали животные и отрисовали остров");
-//        island.eatAnimals();
-//        island.print();
-//        System.out.println("Животные размножаются и отрисовываем остров");
-//        island.reproduceAnimals();
-//        island.print();
-//    }
+    public static void main(String[] args) {
+        System.out.println("Создали остров и отрисовали остров");
+        Island island = new Island();
+        island.print();
+        System.out.println("подвигали животных и отрисовали остров");
+        island.moveAnimalsOnIsland();
+        island.print();
+        System.out.println("пожрали животные и отрисовали остров");
+        island.eatAnimals();
+        island.print();
+        System.out.println("Животные размножаются и отрисовываем остров");
+        island.reproduceAnimals();
+        island.print();
+    }
 
 }
