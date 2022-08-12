@@ -6,14 +6,14 @@ import IslandModel.island.Location;
 public class Task {
     private final Island island;
     private final Location location;
-    public Task(Island island, Location location) {
+    public Task(Island island, int x, int y) {
         this.island = island;
-        this.location = location;
+        this.location = island.getLocationByCoordinates(x, y);
     }
     public void work() {
         if (location.eatAnimals() && location.reproduceAnimals()) {
             if (location.lifeCycleAnimals())
-                location.moveAnimalsOnLocation(island, location);
+                island.moveAnimalsOnLocation(location);
         }
     }
 }

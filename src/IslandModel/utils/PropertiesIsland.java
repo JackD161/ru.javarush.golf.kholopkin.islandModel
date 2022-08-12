@@ -65,6 +65,9 @@ public class PropertiesIsland {
     private static int cntPlants;
     // количество передвижений за ход овцы
     private static int moveCellSheep;
+
+    // количество потоков в приложении
+    private static int numberOfThreads;
     // количество передвижений за ход волка
     private static int moveCellWolf;
     private static String bearIcon;
@@ -171,6 +174,7 @@ public class PropertiesIsland {
             sizeHorizontal = Integer.parseInt(properties.getProperty("sizeHorizontal", "100"));
             sizeVertical = Integer.parseInt(properties.getProperty("sizeVertical", "20"));
             simulationDuration = Integer.parseInt(properties.getProperty("simulationDuration", "5"));
+            numberOfThreads = Integer.parseInt(properties.getProperty("numberOfThreads", "2"));
             countHerbivorous = Integer.parseInt(properties.getProperty("countHerbivorous", "50"));
             countCarnivores = Integer.parseInt(properties.getProperty("countCarnivores", "50"));
             maxCntWolf = Integer.parseInt(properties.getProperty("maxCntWolf", "30"));
@@ -256,6 +260,7 @@ public class PropertiesIsland {
         sizeHorizontal = 100;
         sizeVertical = 20;
         simulationDuration = 5;
+        numberOfThreads = 2;
         countCarnivores = 50;
         countHerbivorous = 50;
         maxCntWolf = 30;
@@ -376,6 +381,10 @@ public class PropertiesIsland {
 
     public static int getMoveCellWolf() {
         return moveCellWolf;
+    }
+
+    public static int getNumberOfThreads() {
+        return numberOfThreads;
     }
 
     public static String getBearIcon() {

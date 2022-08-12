@@ -31,7 +31,7 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         health = 10;
         isAlive = true;
         readyToReproduce = true;
-        System.out.println(this.getName() + " родился");
+//        System.out.println(this.getName() + " родился");
     }
 
     @Override
@@ -39,15 +39,15 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         satiety += howMany;
         if (satiety >= needFood)
             satiety = needFood;
-        System.out.println(this.getName() + " сожрал " + animal);
+//        System.out.println(this.getName() + " сожрал " + animal);
     }
 
     @Override
     public void move(Direction direction) {
-        if (direction == Direction.HOLD)
-            System.out.println(this.getName() + " остался стоять на месте");
-        else
-            System.out.println(this.name + " совершил движение " + direction.toString());
+//        if (direction == Direction.HOLD)
+//            System.out.println(this.getName() + " остался стоять на месте");
+//        else
+//            System.out.println(this.name + " совершил движение " + direction.toString());
     }
 
     public void lostEnergy() {
@@ -67,8 +67,8 @@ public abstract class Animal extends BaseObject implements CanEat, CanMove, Repr
         if (animal.getClass().equals(this.getClass())) {
             if (this.sex != animal.sex) {
                 readyToReproduce = false;
-                String mess = howMany < 1 ? " и не произвел потомства":" и произвел " + howMany + " потомства";
-                System.out.println((this.name + " спарился с " + animal.getName() + mess));
+//                String mess = howMany < 1 ? " и не произвел потомства":" и произвел " + howMany + " потомства";
+//                System.out.println((this.name + " спарился с " + animal.getName() + mess));
                 return true;
             }
         }
